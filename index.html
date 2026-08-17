@@ -5,10 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pilates with Nic · Friendly, personally tailored classes</title>
 <meta name="description" content="Friendly, personally tailored Pilates classes in Exeter & Devon with Nic Gardner. New for 2026 — Wonford, Exwick & Exminster. Prior booking essential.">
+<meta name="theme-color" content="#0f0a12">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pilates with Nic">
+<meta property="og:title" content="Pilates with Nic · Friendly, personally tailored classes">
+<meta property="og:description" content="Friendly, personally tailored Pilates classes in Exeter & Devon. New for 2026 — Wonford, Exwick & Exminster. Prior booking essential.">
+<meta property="og:url" content="https://pilateswithnic.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pilates with Nic · Friendly, personally tailored classes">
+<meta name="twitter:description" content="Friendly, personally tailored Pilates classes in Exeter & Devon. Prior booking essential.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237c3f68'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23a9c3a7'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Pilates with Nic","description":"Friendly, personally tailored Pilates classes in Exeter and Devon.","url":"https://pilateswithnic.github.io/","telephone":"+447792586540","email":"ngardner3000@gmail.com","areaServed":"Exeter, Devon","priceRange":"£"}
+</script>
 
 <style>
 /* ============ 1. TOKENS & BASE ============ */
@@ -23,6 +34,7 @@
   --radius:22px;
   --display:'Fraunces',serif;
   --body:'Space Grotesk',sans-serif;
+  color-scheme:dark;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -34,11 +46,14 @@ body{
   font:400 1rem/1.65 var(--body);
   overflow-x:hidden;
 }
+body.locked{overflow:hidden}
 ::selection{background:var(--orchid);color:var(--plum-deep)}
 :focus-visible{outline:2px solid var(--orchid);outline-offset:3px;border-radius:6px}
 img,svg{display:block}
 a{color:inherit}
 section{scroll-margin-top:90px;position:relative;z-index:2}
+.skip{position:fixed;top:-70px;left:1rem;z-index:200;background:var(--plum);color:#fdf7f2;padding:.6rem 1.1rem;border-radius:12px;text-decoration:none;font:600 .85rem var(--body);transition:top .25s}
+.skip:focus{top:1rem}
 
 /* ============ 2. AMBIENT LAYERS ============ */
 #fx{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -165,15 +180,29 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .tile h3{font-size:1.2rem;margin-bottom:.45rem}
 .tile p{font-size:.9rem;color:var(--cream-dim)}
 
-/* ============ 9. BREATHE ============ */
-#breathe{padding:4.5rem 0;text-align:center}
-.breath-stage{margin:2.6rem auto 1.6rem;width:250px;height:250px;display:grid;place-items:center;position:relative}
+/* ============ 9. BREATHE + GROUND ============ */
+#breathe{padding:4.5rem 0}
+.breathe-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;margin-top:2.6rem}
+.breathe-col{text-align:center}
+.breath-stage{margin:1.8rem auto 1.4rem;width:250px;height:250px;display:grid;place-items:center;position:relative}
 .breath-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(245,239,230,.2)}
 .breath-circle{width:190px;height:190px;border-radius:50%;
   background:radial-gradient(circle at 35% 30%,rgba(217,154,198,.85),rgba(124,63,104,.75) 55%,rgba(67,32,60,.9));
   box-shadow:0 0 60px rgba(217,154,198,.35),inset 0 0 40px rgba(255,255,255,.12);
   transform:scale(.72);will-change:transform}
-.breath-text{font:400 1.3rem var(--display);font-style:italic;color:var(--sage);min-height:1.6em;margin-bottom:1.4rem}
+.breath-text{font:400 1.25rem var(--display);font-style:italic;color:var(--sage);min-height:1.6em;margin-bottom:1.2rem}
+.mode-pills{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.2rem}
+.mode-pill{padding:.5rem 1rem;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--cream-dim);font:500 .8rem var(--body);cursor:pointer;transition:.2s}
+.mode-pill.on{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
+.ground-card{padding:2.2rem 1.8rem;text-align:center}
+.ground-card .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin:0 auto 1rem;
+  background:linear-gradient(135deg,rgba(124,63,104,.5),rgba(111,143,114,.35));box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.ground-card .ico svg{width:22px;height:22px;stroke:var(--cream);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ground-card h3{font-size:1.35rem;margin-bottom:.4rem}
+.ground-card .g-intro{font-size:.9rem;color:var(--cream-dim);margin-bottom:1.4rem}
+.ground-stage{margin-bottom:1.4rem;min-height:110px;display:grid;place-items:center;align-content:center;gap:.2rem}
+.ground-num{font:400 3.4rem/1 var(--display);color:var(--orchid)}
+.ground-text{font:400 1.05rem var(--display);font-style:italic;color:var(--cream-dim)}
 
 /* ============ 10. CONTACT ============ */
 #contact{padding:4rem 0 6rem}
@@ -183,24 +212,58 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .panel>*{position:relative}
 .cta-row{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin:2.2rem 0 1.4rem}
 .copy-row{display:flex;justify-content:center;flex-wrap:wrap;gap:.7rem}
-.steps{list-style:none;display:flex;justify-content:center;gap:2.4rem;flex-wrap:wrap;margin-top:2.6rem;text-align:left}
+.steps{list-style:none;display:flex;justify-content:center;gap:2.4rem;flex-wrap:wrap;margin-top:2.6rem;text-align:left;counter-reset:step}
 .steps li{max-width:24ch;font-size:.88rem;color:var(--cream-dim);counter-increment:step;position:relative;padding-left:2.6rem}
 .steps li::before{content:"0" counter(step);position:absolute;left:0;top:-4px;font:600 1.3rem var(--display);color:var(--orchid)}
-.steps{counter-reset:step}
 .steps b{display:block;color:var(--cream);font-weight:600;margin-bottom:.2rem}
 
 /* ============ 11. FOOTER ============ */
 footer{border-top:1px solid var(--line);padding:2.2rem 0;position:relative;z-index:1}
 footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--cream-dim);font-size:.85rem}
 footer .fmark{color:var(--orchid)}
+.privacy-link{background:none;border:0;color:var(--sage);cursor:pointer;font:inherit;
+  text-decoration:underline;text-decoration-color:rgba(169,195,167,.4);text-underline-offset:3px;padding:0;transition:.25s}
+.privacy-link:hover{color:var(--cream);text-decoration-color:var(--cream)}
 
-/* ============ 12. RESPONSIVE & MOTION ============ */
+/* ============ 12. MODALS (privacy + booking) ============ */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:1rem;
+  background:rgba(15,10,18,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;pointer-events:none;transition:opacity .35s}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-panel{max-width:660px;width:100%;max-height:86vh;overflow-y:auto;
+  padding:clamp(1.5rem,4vw,2.5rem);transform:translateY(20px) scale(.98);
+  transition:transform .4s cubic-bezier(.2,.7,.2,1);position:relative;text-align:left}
+.modal.open .modal-panel{transform:none}
+.modal-panel h2{font-size:clamp(1.5rem,3.5vw,1.9rem);margin-bottom:.4rem}
+.modal-intro{color:var(--cream-dim);margin-bottom:1.4rem;font-size:.97rem}
+.modal-panel h3{font:500 1.02rem var(--display);color:var(--orchid);margin:1.5rem 0 .35rem;font-style:italic}
+.modal-panel p{font-size:.94rem;color:var(--cream-dim);margin-bottom:.6rem}
+.modal-panel a{color:var(--sage);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(169,195,167,.4)}
+.modal-panel a:hover{color:var(--cream)}
+.modal-panel small{display:block;font-size:.78rem;color:var(--cream-dim);margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line)}
+.modal-close{position:absolute;top:1rem;right:1rem;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:var(--glass);cursor:pointer;color:var(--cream);
+  display:grid;place-items:center;transition:.25s;z-index:2}
+.modal-close:hover{background:var(--orchid);color:var(--plum-deep);border-color:var(--orchid)}
+.modal-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+/* booking assistant */
+.pick-label{font:600 .72rem var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin:.6rem 0 .5rem}
+.pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.pill{padding:.6rem 1rem;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--cream-dim);font:500 .85rem var(--body);cursor:pointer;transition:.2s}
+.pill.on{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
+.name-input{width:100%;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(15,10,18,.5);color:var(--cream);font:400 .95rem var(--body);margin-top:.2rem}
+.name-input::placeholder{color:rgba(245,239,230,.35)}
+.modal-ctas{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.4rem}
+.modal-note{font-size:.78rem;color:var(--cream-dim);margin-top:1.1rem}
+
+/* ============ 13. RESPONSIVE & MOTION ============ */
 @media (max-width:960px){
   .cards,.tiles{grid-template-columns:1fr 1fr}
   .hero-grid{grid-template-columns:1fr;text-align:center}
   .hero .tag,.hero-chips,.hero-ctas{margin-inline:auto;justify-content:center}
   .hero-art{order:-1}
   #mandala{width:min(340px,70vw)}
+  .breathe-grid{grid-template-columns:1fr}
 }
 @media (max-width:640px){
   .cards,.tiles{grid-template-columns:1fr}
@@ -217,6 +280,7 @@ footer .fmark{color:var(--orchid)}
 </head>
 <body>
 
+<a class="skip" href="#classes">Skip to content</a>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="aurora a1" aria-hidden="true"></div>
 <div class="aurora a2" aria-hidden="true"></div>
@@ -231,7 +295,7 @@ footer .fmark{color:var(--orchid)}
     <button class="icon-btn" id="soundBtn" aria-pressed="false" title="Toggle ambient sound" aria-label="Toggle ambient sound">
       <span class="bars"><i></i><i></i><i></i><i></i></span>
     </button>
-    <a class="btn primary" data-book="a class place" href="#contact">Book now</a>
+    <button class="btn primary" data-open="bookModal">Book now</button>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -247,9 +311,9 @@ footer .fmark{color:var(--orchid)}
       <h1>Pilates<br><span class="with">with</span><span class="nic">Nic</span></h1>
       <p class="tag">Friendly, personally tailored classes that meet you exactly where you are. Breathe, move, and grow a little stronger every week.</p>
       <div class="hero-ctas">
-        <a class="btn primary" data-book="a trial place" href="#">
-          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" opacity="0"/><path d="M20 4L4 20M4 4l16 16" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
-          Book your place</a>
+        <button class="btn primary" data-open="bookModal">
+          <svg viewBox="0 0 24 24"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+          Book your place</button>
         <a class="btn ghost" href="tel:+447792586540">
           <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
           07792 586540</a>
@@ -354,18 +418,38 @@ footer .fmark{color:var(--orchid)}
   </div>
 </section>
 
-<!-- ============ BREATHE ============ -->
+<!-- ============ BREATHE + GROUND ============ -->
 <section id="breathe">
   <div class="wrap">
-    <p class="eyebrow reveal">A moment to pause</p>
-    <h2 class="reveal">Try one mindful <em>breath</em></h2>
-    <p class="lead reveal" style="margin:0 auto">Pilates begins with the breath. Press start, follow the circle, and let your shoulders drop.</p>
-    <div class="breath-stage reveal" aria-hidden="false">
-      <div class="breath-ring" aria-hidden="true"></div>
-      <div class="breath-circle" id="breathCircle" aria-hidden="true"></div>
+    <p class="eyebrow reveal" style="text-align:center">A moment to pause</p>
+    <h2 class="reveal" style="text-align:center">Two tiny <em>resets</em></h2>
+    <p class="lead reveal" style="margin:0 auto;text-align:center">Pilates begins with the breath. Try one mindful minute before you carry on with your day.</p>
+
+    <div class="breathe-grid">
+      <div class="breathe-col reveal">
+        <div class="mode-pills" role="group" aria-label="Breathing pattern">
+          <button class="mode-pill on" data-mode="calm">Calm · 4-2-6</button>
+          <button class="mode-pill" data-mode="box">Box · 4-4-4-4</button>
+        </div>
+        <div class="breath-stage">
+          <div class="breath-ring" aria-hidden="true"></div>
+          <div class="breath-circle" id="breathCircle" aria-hidden="true"></div>
+        </div>
+        <p class="breath-text" id="breathText">Press start &amp; follow the circle</p>
+        <button class="btn ghost" id="breathBtn">Start breathing</button>
+      </div>
+
+      <div class="ground-card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>5-4-3-2-1 grounding</h3>
+        <p class="g-intro">A one-minute reset: notice the world through your senses, at your own pace.</p>
+        <div class="ground-stage">
+          <div class="ground-num" id="groundNum">5</div>
+          <p class="ground-text" id="groundText">things you can see — press begin when ready</p>
+        </div>
+        <button class="btn ghost" id="groundBtn">Begin</button>
+      </div>
     </div>
-    <p class="breath-text" id="breathText">Press start &amp; follow the circle</p>
-    <button class="btn ghost" id="breathBtn">Start breathing</button>
   </div>
 </section>
 
@@ -380,7 +464,7 @@ footer .fmark{color:var(--orchid)}
         <a class="btn primary" href="tel:+447792586540">
           <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
           Call Nic · 07792 586540</a>
-        <a class="btn ghost" data-book="a class place" href="#">
+        <a class="btn ghost" data-book="a class" href="#">
           <svg viewBox="0 0 24 24"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
           ngardner3000@gmail.com</a>
       </div>
@@ -401,9 +485,75 @@ footer .fmark{color:var(--orchid)}
 <footer>
   <div class="wrap">
     <span><span class="fmark">✦</span> Pilates with Nic — friendly, personally tailored classes</span>
-    <span>© <span id="year"></span> · Exeter &amp; Exminster, Devon · made with care</span>
+    <span>© <span id="year"></span> · Exeter &amp; Exminster, Devon · <button class="privacy-link" id="privacyBtn" aria-haspopup="dialog">Privacy</button> · made with care</span>
   </div>
 </footer>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+  <div class="panel glass modal-panel">
+    <button class="modal-close" data-close="bookModal" aria-label="Close booking assistant">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="eyebrow">Booking assistant</p>
+    <h2 id="bookTitle">Reserve your <em>place</em></h2>
+    <p class="modal-intro">Choose a venue and a session — we'll draft the email for you. Nothing is sent until you press send in your own mail app.</p>
+
+    <p class="pick-label">1 · Choose your venue</p>
+    <div class="pills" id="venuePills"></div>
+
+    <p class="pick-label">2 · Choose your session</p>
+    <div class="pills" id="sessionPills"></div>
+
+    <p class="pick-label">3 · Your name (optional)</p>
+    <input class="name-input" id="bookName" type="text" placeholder="e.g. Jane Smith" autocomplete="name">
+
+    <div class="modal-ctas">
+      <a class="btn primary" id="bookSend" href="#">
+        <svg viewBox="0 0 24 24"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+        Compose booking email</a>
+      <a class="btn ghost" href="tel:+447792586540">
+        <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
+        Prefer to call?</a>
+    </div>
+    <p class="modal-note">Prior booking essential · a short health questionnaire must be completed before your first class.</p>
+  </div>
+</div>
+
+<!-- ============ PRIVACY MODAL ============ -->
+<div class="modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="panel glass modal-panel">
+    <button class="modal-close" data-close="privacyModal" aria-label="Close privacy notice">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="eyebrow">The small print</p>
+    <h2 id="privacyTitle">A quiet, honest privacy note</h2>
+    <p class="modal-intro">This website is intentionally simple. Here's everything you should know — no jargon, no hidden tracking, no cookies.</p>
+
+    <h3>🍪 No cookies, no tracking</h3>
+    <p>We don't use analytics, ads, or any service that watches what you do. The ambient music, particles, and breathing exercises all live entirely inside your browser and never send data anywhere.</p>
+
+    <h3>📨 Your messages go straight to Nic</h3>
+    <p>Every booking button simply opens your own email app with a pre-filled message to <em>ngardner3000@gmail.com</em> — including the booking assistant above. Nothing passes through a server; your message never touches this website.</p>
+
+    <h3>☁️ Where this site lives</h3>
+    <p>The site is hosted on <strong>GitHub Pages</strong>. When you load the page, GitHub briefly sees your IP address, just like any website on the internet. GitHub has its own privacy policy. Nic (the data controller) doesn't see who visits.</p>
+
+    <h3>🔤 About the fonts</h3>
+    <p>We use two typefaces — Fraunces and Space Grotesk — served by <strong>fonts.bunny.net</strong>, a privacy-friendly European CDN. No Google, no profiling.</p>
+
+    <h3>🛡️ Your rights (UK GDPR)</h3>
+    <p>Under UK law you can ask to see, correct, or delete any personal information Nic holds about you. Just email or call — details below. The Information Commissioner's Office (ico.org.uk) is also available if you ever need independent advice.</p>
+
+    <h3>🧘 A small note on health</h3>
+    <p>Pilates is gentle and suitable for most people, but it is not medical advice. Please consult your GP or a qualified health professional before starting any new exercise programme, particularly if you are pregnant, recovering from injury, or have a medical condition.</p>
+
+    <h3>📞 Contact</h3>
+    <p>Nic Gardner · <a href="mailto:ngardner3000@gmail.com">ngardner3000@gmail.com</a> · <a href="tel:+447792586540">07792 586540</a></p>
+
+    <small>Last updated: August 2026 · This is a plain-language summary, not formal legal advice. Nic is the data controller for this site.</small>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -431,7 +581,17 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 }), { threshold:.15 });
 $$('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 6) * 70 + 'ms'; io.observe(el); });
 
-/* ---------- booking links → strictly Nic's email ---------- */
+/* ---------- modals (generic open/close) ---------- */
+const openModal  = m => { m.classList.add('open'); document.body.classList.add('locked');
+  const f = m.querySelector('.modal-close'); setTimeout(() => f && f.focus(), 60); };
+const closeModal = m => { m.classList.remove('open'); document.body.classList.remove('locked'); };
+$$('[data-open]').forEach(b => b.addEventListener('click', () => openModal($('#' + b.dataset.open))));
+$$('[data-close]').forEach(b => b.addEventListener('click', () => closeModal($('#' + b.dataset.close))));
+$$('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m); }));
+addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal.open').forEach(closeModal); });
+$('#privacyBtn').addEventListener('click', () => openModal($('#privacyModal')));
+
+/* ---------- direct mailto links (session arrows + contact email) ---------- */
 $$('[data-book]').forEach(a => {
   const label = a.dataset.book;
   const subject = `Pilates booking — ${label}`;
@@ -559,19 +719,64 @@ function tickClock() {
 }
 tickClock(); setInterval(tickClock, 1000);
 
-/* ---------- guided breathing widget ---------- */
+/* ---------- booking assistant ---------- */
+(() => {
+  const venues = [...new Set(SCHEDULE.map(s => s.venue))];
+  let v = 0, sIdx = 0;
+  const vp = $('#venuePills'), sp = $('#sessionPills'), send = $('#bookSend'), nameI = $('#bookName');
+  const listFor = i => SCHEDULE.map((s, j) => ({ s, j })).filter(x => x.s.venue === venues[i]);
+  function renderVenues() {
+    vp.innerHTML = '';
+    venues.forEach((vn, i) => {
+      const b = document.createElement('button');
+      b.className = 'pill' + (i === v ? ' on' : '');
+      b.textContent = vn.split(' ')[0];
+      b.addEventListener('click', () => { v = i; sIdx = 0; renderVenues(); renderSessions(); update(); });
+      vp.appendChild(b);
+    });
+  }
+  function renderSessions() {
+    sp.innerHTML = '';
+    listFor(v).forEach((x, k) => {
+      const b = document.createElement('button');
+      b.className = 'pill' + (k === sIdx ? ' on' : '');
+      b.textContent = `${DAYS[x.s.day].slice(0,3).toUpperCase()} ${x.s.start}–${x.s.end}`;
+      b.addEventListener('click', () => { sIdx = k; renderSessions(); update(); });
+      sp.appendChild(b);
+    });
+  }
+  function update() {
+    const { s } = listFor(v)[sIdx];
+    const day = DAYS[s.day];
+    const name = (nameI.value || '').trim();
+    const subject = `Class booking — ${day} ${s.start} · ${s.venue}`;
+    const body = `Hi Nic,\n\nI'd love to book:\n• ${day} ${s.start}–${s.end} — ${s.venue}\n\nName: ${name || '(add here)'}\nPhone:\nAnything I should mention:\n\nI understand a health questionnaire must be completed before attending.\n\nThank you!`;
+    send.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+  nameI.addEventListener('input', update);
+  renderVenues(); renderSessions(); update();
+})();
+
+/* ---------- breathing widget (two patterns) ---------- */
 (() => {
   const circle = $('#breathCircle'), label = $('#breathText'), btn = $('#breathBtn');
-  const PHASES = [ { name:'Breathe in…',  dur:4000, from:.72, to:1 },
-                   { name:'Hold…',        dur:1800, from:1,   to:1 },
-                   { name:'Breathe out…', dur:6000, from:1,   to:.72 } ];
-  const TOTAL = PHASES.reduce((a,p) => a + p.dur, 0);
+  const PATTERNS = {
+    calm: [ { name:'Breathe in…',  dur:4000, from:.72, to:1 },
+            { name:'Hold…',        dur:1800, from:1,   to:1 },
+            { name:'Breathe out…', dur:6000, from:1,   to:.72 } ],
+    box:  [ { name:'Breathe in…',  dur:4000, from:.72, to:1 },
+            { name:'Hold…',        dur:4000, from:1,   to:1 },
+            { name:'Breathe out…', dur:4000, from:1,   to:.72 },
+            { name:'Hold…',        dur:4000, from:.72, to:.72 } ]
+  };
+  let PHASES = PATTERNS.calm;
+  const total = () => PHASES.reduce((a,p) => a + p.dur, 0);
   const ease = p => .5 - .5*Math.cos(Math.PI*p);
   let running = false, t0 = 0, raf = 0;
   const loop = ts => {
     if (!running) return;
     if (!t0) t0 = ts;
-    let t = (ts - t0) % TOTAL;
+    let t = (ts - t0) % total();
     for (const p of PHASES) {
       if (t < p.dur) {
         label.textContent = p.name;
@@ -588,6 +793,31 @@ tickClock(); setInterval(tickClock, 1000);
     else { cancelAnimationFrame(raf); t0 = 0; btn.textContent = 'Start breathing';
            label.textContent = 'Press start & follow the circle'; circle.style.transform = 'scale(.72)'; }
   });
+  $$('.mode-pill').forEach(p => p.addEventListener('click', () => {
+    $$('.mode-pill').forEach(x => x.classList.remove('on'));
+    p.classList.add('on');
+    PHASES = PATTERNS[p.dataset.mode];
+    t0 = 0;
+    if (!running) label.textContent = 'Press start & follow the circle';
+  }));
+})();
+
+/* ---------- 5-4-3-2-1 grounding ---------- */
+(() => {
+  const STEPS = [[5,'things you can see'],[4,'things you can feel'],[3,'things you can hear'],[2,'things you can smell'],[1,'thing you can taste']];
+  let step = -1;
+  const n = $('#groundNum'), t = $('#groundText'), b = $('#groundBtn');
+  const render = () => {
+    if (step === -1) { n.textContent = '5'; t.textContent = 'things you can see — press begin when ready'; b.textContent = 'Begin'; }
+    else if (step < STEPS.length) { n.textContent = STEPS[step][0]; t.textContent = STEPS[step][1];
+      b.textContent = step === STEPS.length - 1 ? 'Finish ✦' : 'Next →'; }
+    else { n.textContent = '✦'; t.textContent = 'Well done — notice how present you feel.'; b.textContent = 'Again'; }
+  };
+  b.addEventListener('click', () => {
+    step = (step === -1 || step >= STEPS.length) ? 0 : step + 1;
+    render();
+  });
+  render();
 })();
 
 /* ---------- generative ambient soundscape (Web Audio) ---------- */
