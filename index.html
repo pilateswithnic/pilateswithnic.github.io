@@ -85,6 +85,21 @@ h2 em{font-style:italic;color:var(--orchid)}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 
+/* ============ 3b. SHARE BUTTONS ============ */
+.share-row{display:flex;align-items:center;gap:.55rem;margin-top:1.3rem;flex-wrap:wrap}
+.share-row.center{justify-content:center}
+.share-row .s-label{font:600 .7rem var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);margin-right:.2rem}
+.share-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--glass);
+  color:var(--cream-dim);display:grid;place-items:center;cursor:pointer;transition:.25s}
+.share-btn svg{width:15px;height:15px;fill:currentColor}
+.share-btn:hover{transform:translateY(-2px);color:var(--cream)}
+.share-btn[data-net="fb"]:hover{border-color:#1877f2;color:#1877f2}
+.share-btn[data-net="x"]:hover{border-color:#e7e9ea;color:#e7e9ea}
+.toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,20px);background:var(--plum);color:#fdf7f2;
+  padding:.75rem 1.3rem;border-radius:999px;font:500 .85rem var(--body);opacity:0;pointer-events:none;
+  transition:.35s;z-index:120;box-shadow:0 10px 30px -10px rgba(217,154,198,.5);max-width:92%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
 /* ============ 4. NAV ============ */
 nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
   padding:1rem clamp(1rem,4vw,2.5rem);transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
@@ -129,12 +144,25 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .hero-art{display:grid;place-items:center;animation:float 9s ease-in-out infinite}
 #mandala{width:min(520px,82vw);filter:drop-shadow(0 0 34px rgba(217,154,198,.28))}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-.m-outer{fill:rgba(169,195,167,.05);stroke:url(#mgA);stroke-width:1.4}
-.m-dash{fill:none;stroke:rgba(245,239,230,.28);stroke-dasharray:2 7}
-.m-mid{fill:rgba(124,63,104,.16);stroke:rgba(217,154,198,.5);stroke-width:1.2}
-.m-dot{fill:rgba(245,239,230,.55)}
-.m-in{fill:rgba(217,154,198,.15);stroke:rgba(245,239,230,.4);stroke-width:1.1}
-.m-heart{fill:var(--cream)}
+/* mandala — faithful to the flyer artwork */
+.m-center{fill:#f5efe6}
+.m-c-ring{fill:none;stroke:#7c3f68;stroke-width:1.8}
+.m-flower{fill:#7c3f68;stroke:#f5efe6;stroke-width:1.4}
+.m-flower-in{fill:none;stroke:#f5efe6;stroke-width:.9;opacity:.7}
+.m-ring-line{fill:none;stroke:#7c3f68;stroke-width:1.2}
+.m-dot{fill:#f5efe6}
+.m-dot-plum{fill:#7c3f68}
+.m-band{fill:none;stroke:#7c3f68;stroke-width:14;opacity:.9}
+.m-band-edge{fill:none;stroke:#f5efe6;stroke-width:1.2;opacity:.8}
+.m-mid{fill:#a9c3a7;stroke:#7c3f68;stroke-width:1.2}
+.m-mid-in{fill:none;stroke:#f5efe6;stroke-width:.9}
+.m-leaf{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.1}
+.m-vein{fill:none;stroke:#f5efe6;stroke-width:.7;opacity:.8}
+.m-tri{fill:none;stroke:#f5efe6;stroke-width:.9}
+.m-out-sage{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.3}
+.m-out-plum{fill:#7c3f68;stroke:#43203c;stroke-width:1.3}
+.m-out-in{fill:none;stroke:#f5efe6;stroke-width:.9}
+.m-fan{fill:none;stroke:#7c3f68;stroke-width:1}
 .next-strip{width:min(1140px,92%);margin:3.2rem auto 0;padding:.95rem 1.4rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;font-size:.92rem;color:var(--cream-dim)}
 .next-strip strong{color:var(--cream);font-weight:600}
 .pulse-dot{width:9px;height:9px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 0 rgba(169,195,167,.6);animation:pulse 2s infinite;flex:none}
@@ -261,6 +289,7 @@ footer .fmark{color:var(--orchid)}
   .cards,.tiles{grid-template-columns:1fr 1fr}
   .hero-grid{grid-template-columns:1fr;text-align:center}
   .hero .tag,.hero-chips,.hero-ctas{margin-inline:auto;justify-content:center}
+  .hero .share-row{justify-content:center}
   .hero-art{order:-1}
   #mandala{width:min(340px,70vw)}
   .breathe-grid{grid-template-columns:1fr}
@@ -323,6 +352,7 @@ footer .fmark{color:var(--orchid)}
         <span class="chip">Limited numbers</span>
         <span class="chip">Health questionnaire before first class</span>
       </div>
+      <div class="share-row reveal" data-hash="" data-text="Pilates with Nic — friendly, personally tailored Pilates classes in Exeter &amp; Devon" role="group" aria-label="Share this site"></div>
     </div>
     <div class="hero-art"><div id="mandala" aria-hidden="true"></div></div>
   </div>
@@ -351,6 +381,7 @@ footer .fmark{color:var(--orchid)}
     <p class="eyebrow reveal">The weekly timetable</p>
     <h2 class="reveal">Find your <em>class</em></h2>
     <p class="lead reveal">Three welcoming venues across Exeter and Devon. Tap the arrow on any session to book it directly by email, or call Nic on <a href="tel:+447792586540" style="color:var(--sage)">07792 586540</a>.</p>
+    <div class="share-row reveal" data-hash="#classes" data-text="Friendly Pilates classes across Exeter &amp; Devon — see the weekly timetable 🧘‍♀️" role="group" aria-label="Share the classes section"></div>
 
     <div class="cards">
       <article class="card glass tilt reveal">
@@ -401,6 +432,7 @@ footer .fmark{color:var(--orchid)}
   <div class="wrap">
     <p class="eyebrow reveal">Why Pilates, why Nic</p>
     <h2 class="reveal">Small classes, <em>real</em> attention</h2>
+    <div class="share-row reveal" data-hash="#why" data-text="Small, friendly Pilates classes with real attention — Pilates with Nic 💚" role="group" aria-label="Share the why Pilates section"></div>
     <div class="tiles">
       <div class="tile glass reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Core strength</h3><p>Build a stable, supported centre — the foundation of every graceful movement.</p></div>
@@ -424,6 +456,7 @@ footer .fmark{color:var(--orchid)}
     <p class="eyebrow reveal" style="text-align:center">A moment to pause</p>
     <h2 class="reveal" style="text-align:center">Two tiny <em>resets</em></h2>
     <p class="lead reveal" style="margin:0 auto;text-align:center">Pilates begins with the breath. Try one mindful minute before you carry on with your day.</p>
+    <div class="share-row center reveal" data-hash="#breathe" data-text="Take a mindful minute with Pilates with Nic 🌿" role="group" aria-label="Share the breathe section"></div>
 
     <div class="breathe-grid">
       <div class="breathe-col reveal">
@@ -460,6 +493,7 @@ footer .fmark{color:var(--orchid)}
       <p class="eyebrow">Say hello</p>
       <h2>Ready when <em>you</em> are</h2>
       <p class="lead" style="margin:0 auto">Places are limited and prior booking is essential. A short health questionnaire must be completed before your first class — Nic will send it over the moment you get in touch.</p>
+      <div class="share-row center reveal" data-hash="#contact" data-text="Book your place — Pilates with Nic, Exeter &amp; Devon ✨" role="group" aria-label="Share the contact section"></div>
       <div class="cta-row">
         <a class="btn primary" href="tel:+447792586540">
           <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
@@ -531,7 +565,7 @@ footer .fmark{color:var(--orchid)}
     <p class="modal-intro">This website is intentionally simple. Here's everything you should know — no jargon, no hidden tracking, no cookies.</p>
 
     <h3>🍪 No cookies, no tracking</h3>
-    <p>We don't use analytics, ads, or any service that watches what you do. The ambient music, particles, and breathing exercises all live entirely inside your browser and never send data anywhere.</p>
+    <p>We don't use analytics, ads, or any service that watches what you do. The ambient music, particles, and breathing exercises all live entirely inside your browser and never send data anywhere. Share buttons open Facebook / X directly — nothing is tracked by this site.</p>
 
     <h3>📨 Your messages go straight to Nic</h3>
     <p>Every booking button simply opens your own email app with a pre-filled message to <em>ngardner3000@gmail.com</em> — including the booking assistant above. Nothing passes through a server; your message never touches this website.</p>
@@ -607,23 +641,90 @@ $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
   setTimeout(() => btn.textContent = old, 1300);
 }));
 
-/* ---------- generative mandala (homage to the flyer) ---------- */
+/* ---------- social share buttons (Facebook / X only) ---------- */
+(() => {
+  const ICONS = {
+    fb: '<svg viewBox="0 0 24 24"><path d="M13.4 21v-6.9h2.3l.44-2.8h-2.74V9.4c0-.81.32-1.4 1.44-1.4h1.3V5.5c-.25-.03-1.12-.1-2.14-.1-2.24 0-3.63 1.36-3.63 3.72v2.18H8v2.8h2.37V21h3.03z"/></svg>',
+    x:  '<svg viewBox="0 0 24 24"><path d="M17.8 3h2.7l-6 6.8L21.6 21h-5.5l-4.3-5.6L6.9 21H4.2l6.4-7.3L3.9 3h5.6l3.9 5.1L17.8 3zm-1 16.4h1.5L8.7 4.5H7.1l9.7 14.9z"/></svg>'
+  };
+  const BASE = location.origin + location.pathname;
+  const toast = document.createElement('div');
+  toast.className = 'toast'; document.body.appendChild(toast);
+  let tT;
+  const showToast = msg => { toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 2600); };
+  function share(net, url, text) {
+    if (net === 'fb') {
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'noopener,width=640,height=520');
+      showToast('Opening Facebook to share…');
+    }
+    if (net === 'x') {
+      window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank', 'noopener,width=640,height=520');
+      showToast('Opening X to share…');
+    }
+  }
+  $$('.share-row').forEach(row => {
+    const url  = BASE + (row.dataset.hash || '');
+    const text = row.dataset.text || document.title;
+    row.innerHTML = '<span class="s-label">Share</span>';
+    ['fb','x'].forEach(net => {
+      const b = document.createElement('button');
+      b.className = 'share-btn'; b.dataset.net = net; b.innerHTML = ICONS[net];
+      const label = net === 'fb' ? 'Share on Facebook' : 'Share on X';
+      b.title = label; b.setAttribute('aria-label', label);
+      b.addEventListener('click', () => share(net, url, text));
+      row.appendChild(b);
+    });
+  });
+})();
+
+/* ---------- generative mandala (faithful to the flyer) ---------- */
 (() => {
   const petal = (r0, r1, w) =>
     `M0 ${-r0} C ${w} ${-(r0 + (r1-r0)*.35)}, ${w} ${-(r1 - (r1-r0)*.25)}, 0 ${-r1}` +
     ` C ${-w} ${-(r1 - (r1-r0)*.25)}, ${-w} ${-(r0 + (r1-r0)*.35)}, 0 ${-r0} Z`;
-  const ring = (n, inner) => { let s=''; for (let i=0;i<n;i++) s += `<g transform="rotate(${(360/n)*i})">${inner}</g>`; return s; };
+  const ring = (n, inner, off = 0) => { let s=''; for (let i=0;i<n;i++) s += `<g transform="rotate(${off + (360/n)*i})">${inner}</g>`; return s; };
+  const dots = (n, R, r, cls = 'm-dot') => ring(n, `<circle cy="${-R}" r="${r}" class="${cls}"/>`);
+  const leaf = (r0, r1, w) => `<path d="${petal(r0,r1,w)}" class="m-leaf"/><path d="M 0 ${-r0-3} L 0 ${-r1+5}" class="m-vein"/>`;
   const spin = (dur, rev) => `<animateTransform attributeName="transform" type="rotate" from="${rev?360:0}" to="${rev?0:360}" dur="${dur}s" repeatCount="indefinite"/>`;
+  let outer = '';
+  for (let i = 0; i < 16; i++) {
+    const cls = i % 2 ? 'm-out-sage' : 'm-out-plum';
+    outer += `<g transform="rotate(${(360/16)*i})">` +
+      `<path d="${petal(170,245,32)}" class="${cls}"/>` +
+      `<path d="${petal(180,235,24)}" class="m-out-in"/>` +
+      `</g>`;
+  }
+  let midBand = '';
+  for (let i = 0; i < 12; i++) {
+    if (i % 2 === 0) midBand += `<g transform="rotate(${(360/12)*i})">${leaf(100,145,12)}</g>`;
+    else midBand += `<g transform="rotate(${(360/12)*i})"><circle cy="-125" r="4" class="m-mid"/></g>`;
+  }
+  const flower = ring(8, `<path d="${petal(22,68,18)}" class="m-flower"/><path d="${petal(30,58,12)}" class="m-flower-in"/>`);
   $('#mandala').innerHTML = `
-  <svg viewBox="-230 -230 460 460">
-    <defs><linearGradient id="mgA" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d99ac6"/><stop offset="1" stop-color="#a9c3a7"/></linearGradient>
+  <svg viewBox="-270 -270 540 540">
+    <defs>
+      <linearGradient id="mgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d99ac6"/><stop offset="1" stop-color="#a9c3a7"/></linearGradient>
       <radialGradient id="mgC"><stop offset="0" stop-color="#f5efe6"/><stop offset="1" stop-color="#d99ac6"/></radialGradient>
     </defs>
-    <g>${spin(90)}${ring(16, `<path d="${petal(150,214,26)}" class="m-outer"/>`)}<circle r="150" class="m-dash"/></g>
-    <g>${spin(60, true)}${ring(12, `<path d="${petal(96,148,30)}" class="m-mid"/>`)}${ring(24, `<circle cy="-88" r="3.2" class="m-dot"/>`)}</g>
-    ${ring(8, `<path d="${petal(26,84,26)}" class="m-in"/>`)}
-    <circle r="20" fill="url(#mgC)" opacity=".92"/><circle r="8" class="m-heart"/>
+    <g>${spin(120)}${outer}</g>
+    <g>${spin(80, true)}
+      <circle r="155" class="m-ring-line"/>
+      <circle r="95" class="m-ring-line"/>
+      ${midBand}
+      ${dots(24, 175, 2.5, 'm-dot-plum')}
+      ${dots(24, 85, 2)}
+    </g>
+    <g>${spin(100)}
+      <circle r="78" class="m-band"/>
+      <circle r="72" class="m-band-edge"/>
+      <circle r="84" class="m-band-edge"/>
+      ${flower}
+      <circle r="22" class="m-center"/>
+      <circle r="26" class="m-c-ring"/>
+      <circle r="18" class="m-c-ring"/>
+      <circle r="8" fill="#7c3f68"/>
+    </g>
   </svg>`;
   if (reduced) $('#mandala svg').pauseAnimations();
 })();
