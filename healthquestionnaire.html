@@ -3,137 +3,504 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health and Safety Questionnaire</title>
+    <title>Health & Safety Questionnaire - Pilates with Nic</title>
+    
+    <!-- Google Fonts to match the screenshots -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Signature Pad Library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <!-- HTML2PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 40px; 
-            background-color: #f4f4f9; 
-            color: #333;
+        /* Base Nocturnal Aesthetic */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #150a1a 0%, #0a0b10 100%);
+            color: #d1d5db;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        .container { 
-            max-width: 600px; 
-            margin: auto; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+
+        /* Subtle Starry Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,0.4), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 70% 10%, rgba(255,255,255,0.2), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 80% 80%, rgba(255,255,255,0.5), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            z-index: -1;
+            pointer-events: none;
         }
-        h2 { 
-            text-align: center; 
-            color: #333; 
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
         }
-        label { 
-            font-weight: bold; 
-            display: block; 
-            margin-top: 15px; 
+
+        /* Typography Matching Screenshots */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
         }
-        input[type="text"], input[type="email"], textarea { 
-            width: 100%; 
-            padding: 10px; 
-            margin-top: 5px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            box-sizing: border-box; 
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 3rem;
+            color: #f3f4f6;
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
         }
-        button { 
-            background-color: #28a745; 
-            color: white; 
-            border: none; 
-            padding: 12px 20px; 
-            font-size: 16px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            width: 100%; 
-            margin-top: 20px; 
+
+        .brand-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.8rem;
+            color: #d1d5db;
+            margin: 0;
+            font-weight: 400;
         }
-        button:hover { 
-            background-color: #218838; 
+
+        h2 {
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #f3f4f6;
+            letter-spacing: 0.5px;
         }
-        .hidden { 
-            display: none; 
+
+        .intro-text {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
+
+        h3 {
+            color: #7ed994; /* Soft green from screenshot */
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(126, 217, 148, 0.3);
+            padding-bottom: 10px;
+        }
+
+        /* Form Inputs matching screenshot */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #e5e7eb;
+            font-size: 0.95rem;
+        }
+
+        .sub-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #7ed994;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 2px rgba(126, 217, 148, 0.2);
+        }
+
+        /* Custom Checkboxes */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            color: #e5e7eb;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            appearance: none;
+            background-color: #fff;
+            margin: 0 12px 0 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.15em;
+            height: 1.15em;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #150a1a;
+            background-color: #150a1a;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        .checkbox-label input[type="checkbox"]:checked {
+            background-color: #ffffff;
+        }
+        
+        .checkbox-label input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+
+        /* Signature Area */
+        .signature-wrapper {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+        
+        canvas#signature-pad {
+            width: 100%;
+            height: 200px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 4px;
+            cursor: crosshair;
+        }
+
+        .clear-btn {
+            background: transparent;
+            color: #9ca3af;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            float: right;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* Submit Button matching the rounded purple gradient style */
+        .submit-btn {
+            background: linear-gradient(135deg, #7ed994 0%, #5cb672 100%);
+            color: #064e3b;
+            border: none;
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px; /* Pill shape */
+            cursor: pointer;
+            width: 100%;
+            margin-top: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(126, 217, 148, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(126, 217, 148, 0.4);
+        }
+
+        /* Status Messages */
         #status-msg {
-            text-align: center; 
-            margin-top: 15px; 
-            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 600;
         }
+        
+        .success { background: rgba(126, 217, 148, 0.1); border: 1px solid #7ed994; color: #7ed994; }
+        .error { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; }
+
+        /* --- PDF PRINT STYLES --- */
+        /* These styles activate ONLY when generating the PDF to save ink and look professional */
+        .pdf-mode { background: #ffffff !important; color: #000000 !important; }
+        .pdf-mode::before { display: none !important; }
+        .pdf-mode .brand-title, .pdf-mode .brand-subtitle, .pdf-mode h2, .pdf-mode .intro-text { color: #000000 !important; }
+        .pdf-mode h3 { color: #000000 !important; border-bottom-color: #000000 !important; }
+        .pdf-mode label, .pdf-mode .sub-label, .pdf-mode .checkbox-label { color: #000000 !important; }
+        .pdf-mode input, .pdf-mode textarea { 
+            background: #ffffff !important; 
+            border: 1px solid #000000 !important; 
+            color: #000000 !important; 
+        }
+        .pdf-mode .checkbox-label input[type="checkbox"] { border-color: #000000 !important; }
+        .pdf-mode .checkbox-label input[type="checkbox"]::before { box-shadow: inset 1em 1em #000; background-color: #000; }
+        .pdf-mode .clear-btn, .pdf-mode .submit-btn { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="container" id="form-content">
-    <h2>Health & Safety Questionnaire</h2>
-    
-    <!-- Formspree Action URL Integrated Here -->
-    <form id="health-form" action="https://formspree.io/f/mnpawvye" method="POST">
+<!-- The wrapper that will be converted to PDF -->
+<div id="pdf-wrapper">
+    <div class="container">
         
-        <!-- Hidden Subject Field for Formspree -->
-        <input type="hidden" name="_subject" id="email-subject" value="Health Questionnaire Submission">
+        <div class="brand-header">
+            <h1 class="brand-title">Pilates</h1>
+            <h1 class="brand-subtitle">with Nic</h1>
+        </div>
 
-        <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="Client Name" required>
+        <h2>Health & Safety Questionnaire</h2>
+        <p class="intro-text">Please complete this form accurately to ensure safe and effective sessions. All information provided will be kept strictly confidential.</p>
+        
+        <!-- Note the enctype for file uploads -->
+        <form id="health-form" action="https://formspree.io/f/mnpawvye" method="POST" enctype="multipart/form-data">
+            
+            <input type="hidden" name="_subject" id="email-subject" value="New Health Questionnaire Submission">
 
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="Email Address" required>
+            <!-- SECTION 1 -->
+            <h3>1. Personal Details</h3>
+            
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="Full Name" required placeholder="Jane Doe">
+            </div>
 
-        <label for="healthConditions">Do you have any existing health conditions or injuries?</label>
-        <textarea id="healthConditions" name="Health Conditions" rows="4" required></textarea>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="Date of Birth" required>
+            </div>
 
-        <button type="submit" id="submit-btn">Submit Questionnaire</button>
-        <p id="status-msg" class="hidden"></p>
-    </form>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="Phone Number" required placeholder="07123 456789">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="Email Address" required placeholder="jane@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="emergency">Emergency Contact (Name & Number)</label>
+                <input type="text" id="emergency" name="Emergency Contact" required placeholder="John Doe - 07987 654321">
+            </div>
+
+            <!-- SECTION 2 -->
+            <h3>2. Medical History & Lifestyle</h3>
+            <span class="sub-label">Do you suffer from, or have you ever suffered from, any of the following? (Tick all that apply)</span>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="High/Low Blood Pressure"> High/Low Blood Pressure</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Heart Condition"> Heart Condition</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Asthma/Respiratory"> Asthma / Respiratory</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Joint/Bone/Muscle issues"> Joint / Bone / Muscle issues</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Spinal/Back Problems"> Spinal / Back Problems</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Diabetes"> Diabetes</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Epilepsy"> Epilepsy</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Currently Pregnant"> Currently Pregnant</label>
+                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Recent Surgery (last 12 months)"> Recent Surgery (last 12 months)</label>
+            </div>
+
+            <div class="form-group">
+                <label for="medications">Are you currently taking any medications?</label>
+                <span class="sub-label">If yes, please detail:</span>
+                <textarea id="medications" name="Medications" rows="2" placeholder="Leave blank if none"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="details">Please provide further details for any boxes ticked above:</label>
+                <span class="sub-label">Or list any other injuries, conditions, or physical limitations:</span>
+                <textarea id="details" name="Medical Details" rows="3" placeholder="Help me adapt exercises safely for you..."></textarea>
+            </div>
+
+            <!-- SECTION 3 -->
+            <h3>3. Goals & Experience</h3>
+            <div class="form-group">
+                <label for="experience">Have you done Pilates before?</label>
+                <input type="text" id="experience" name="Pilates Experience" placeholder="e.g., Yes, 2 years of mat classes, or No, complete beginner">
+            </div>
+
+            <div class="form-group">
+                <label for="goals">What are your main goals for attending these Pilates classes?</label>
+                <textarea id="goals" name="Fitness Goals" rows="2" placeholder="e.g., Improve flexibility, core strength, recover from injury..."></textarea>
+            </div>
+
+            <!-- SECTION 4 -->
+            <h3>4. Client Declaration & Signature</h3>
+            <p class="sub-label" style="text-align: justify; margin-bottom: 20px;">
+                By signing below, I confirm that the information provided is correct to the best of my knowledge. 
+                I understand that Pilates involves physical exertion and I participate at my own risk. 
+                I agree to inform the instructor immediately of any changes to my medical status before participating in any future class.
+                I consent to my data being stored securely in accordance with standard privacy policies.
+            </p>
+
+            <div class="form-group">
+                <label>Sign Here (Use your mouse or finger):</label>
+                <div class="signature-wrapper">
+                    <canvas id="signature-pad"></canvas>
+                </div>
+                <button type="button" class="clear-btn" id="clear-sig">Clear Signature</button>
+                <div style="clear: both;"></div>
+            </div>
+
+            <!-- Submit Elements -->
+            <button type="submit" class="submit-btn" id="submit-btn">Submit Questionnaire</button>
+            <div id="status-msg"></div>
+
+        </form>
+    </div>
 </div>
 
 <script>
+    // Initialize Signature Pad
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgb(255, 255, 255)',
+        penColor: 'rgb(0, 0, 0)'
+    });
+
+    // Fix scaling for crisp lines on mobile devices
+    function resizeCanvas() {
+        const ratio =  Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Clear Signature logic
+    document.getElementById('clear-sig').addEventListener('click', () => {
+        signaturePad.clear();
+    });
+
+    // Handle Form Submission, PDF Creation, and Attachment
     document.getElementById('health-form').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevents the page from reloading/redirecting
+        event.preventDefault(); 
+        
+        if (signaturePad.isEmpty()) {
+            alert("Please provide your signature before submitting.");
+            return;
+        }
 
         const form = event.target;
         const submitBtn = document.getElementById('submit-btn');
         const statusMsg = document.getElementById('status-msg');
         const fullName = document.getElementById('fullName').value;
 
-        // Dynamically update the hidden subject line with the client's name
-        document.getElementById('email-subject').value = `Health Questionnaire from ${fullName}`;
+        // Update subject line
+        document.getElementById('email-subject').value = `Signed Health Questionnaire: ${fullName}`;
 
-        // Change button state to show it is processing
-        submitBtn.innerText = 'Sending...';
+        // UI Loading State
+        submitBtn.innerText = 'Generating PDF & Sending...';
         submitBtn.disabled = true;
+        statusMsg.style.display = 'none';
 
-        const formData = new FormData(form);
+        // --- STEP 1: PREPARE UI FOR PDF ---
+        const wrapper = document.getElementById('pdf-wrapper');
+        document.body.classList.add('pdf-mode'); // Turns background white, text black for clean print
+
+        const pdfOptions = {
+            margin:       15,
+            filename:     `Pilates_Health_Form_${fullName.replace(/\s+/g, '_')}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
         try {
-            // Send the form data silently to Formspree
+            // --- STEP 2: GENERATE PDF AS A FILE (BLOB) ---
+            const pdfBlob = await html2pdf().set(pdfOptions).from(wrapper).output('blob');
+            
+            // Revert styles back to the dark nocturnal theme
+            document.body.classList.remove('pdf-mode');
+
+            // --- STEP 3: PREPARE FORMSPREE SUBMISSION ---
+            const formData = new FormData(form);
+            
+            // ATTACH THE PDF DIRECTLY TO THE FORM DATA
+            // Note: For this attachment to pass through Formspree to your email, 
+            // the specific Formspree tier being used must support file uploads.
+            formData.append('Signed_Questionnaire_PDF', pdfBlob, pdfOptions.filename);
+
+            // --- STEP 4: SEND TO FORMSPREE ---
             const response = await fetch(form.action, {
                 method: form.method,
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             });
 
             if (response.ok) {
-                statusMsg.innerText = "Thank you! Your questionnaire has been sent securely.";
-                statusMsg.style.color = "green";
-                statusMsg.classList.remove('hidden');
-                form.reset(); // Clear the form
+                // Trigger local download for the client as a backup/receipt
+                html2pdf().set(pdfOptions).from(wrapper).save();
+                
+                statusMsg.innerText = "Success! Your form and signed PDF have been submitted securely.";
+                statusMsg.className = "success";
+                statusMsg.style.display = "block";
+                
+                form.reset(); 
+                signaturePad.clear();
             } else {
-                const data = await response.json();
-                if (Object.hasOwn(data, 'errors')) {
-                    statusMsg.innerText = data["errors"].map(error => error["message"]).join(", ");
-                } else {
-                    statusMsg.innerText = "Oops! There was a problem submitting your form.";
-                }
-                statusMsg.style.color = "red";
-                statusMsg.classList.remove('hidden');
+                const errorData = await response.json();
+                console.error('Formspree Error:', errorData);
+                throw new Error("Formspree rejected the submission. Ensure file uploads are enabled on your Formspree plan.");
             }
+
         } catch (error) {
-            statusMsg.innerText = "Oops! There was a problem submitting your form.";
-            statusMsg.style.color = "red";
-            statusMsg.classList.remove('hidden');
+            console.error(error);
+            document.body.classList.remove('pdf-mode'); // Ensure UI resets on error
+            statusMsg.innerText = "Oops! Something went wrong submitting your form. Please try again.";
+            statusMsg.className = "error";
+            statusMsg.style.display = "block";
         } finally {
-            // Reset button state
             submitBtn.innerText = 'Submit Questionnaire';
             submitBtn.disabled = false;
         }
