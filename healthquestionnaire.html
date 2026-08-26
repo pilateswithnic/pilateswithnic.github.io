@@ -1,511 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health & Safety Questionnaire - Pilates with Nic</title>
-    
-    <!-- Google Fonts to match the screenshots -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
-    
-    <!-- Signature Pad Library -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
-    <!-- HTML2PDF Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <style>
-        /* Base Nocturnal Aesthetic */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #150a1a 0%, #0a0b10 100%);
-            color: #d1d5db;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Subtle Starry Background */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,0.4), rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,0.3), rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 70% 10%, rgba(255,255,255,0.2), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 80% 80%, rgba(255,255,255,0.5), rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3), rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 250px 250px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 30px;
-        }
-
-        /* Typography Matching Screenshots */
-        .brand-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .brand-title {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 3rem;
-            color: #f3f4f6;
-            margin: 0;
-            line-height: 1.1;
-            font-weight: 400;
-        }
-
-        .brand-subtitle {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.8rem;
-            color: #d1d5db;
-            margin: 0;
-            font-weight: 400;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: 300;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            color: #f3f4f6;
-            letter-spacing: 0.5px;
-        }
-
-        .intro-text {
-            text-align: center;
-            font-size: 0.95rem;
-            color: #9ca3af;
-            line-height: 1.5;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        h3 {
-            color: #7ed994; /* Soft green from screenshot */
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(126, 217, 148, 0.3);
-            padding-bottom: 10px;
-        }
-
-        /* Form Inputs matching screenshot */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #e5e7eb;
-            font-size: 0.95rem;
-        }
-
-        .sub-label {
-            display: block;
-            font-size: 0.85rem;
-            color: #9ca3af;
-            margin-bottom: 12px;
-            font-weight: 300;
-            line-height: 1.4;
-        }
-
-        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #7ed994;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 2px rgba(126, 217, 148, 0.2);
-        }
-
-        /* Custom Checkboxes */
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            font-weight: 400;
-            color: #e5e7eb;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .checkbox-label input[type="checkbox"] {
-            appearance: none;
-            background-color: #fff;
-            margin: 0 12px 0 0;
-            font: inherit;
-            color: currentColor;
-            width: 1.15em;
-            height: 1.15em;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            display: grid;
-            place-content: center;
-            cursor: pointer;
-        }
-
-        .checkbox-label input[type="checkbox"]::before {
-            content: "";
-            width: 0.65em;
-            height: 0.65em;
-            transform: scale(0);
-            transition: 120ms transform ease-in-out;
-            box-shadow: inset 1em 1em #150a1a;
-            background-color: #150a1a;
-            transform-origin: center;
-            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-        }
-
-        .checkbox-label input[type="checkbox"]:checked {
-            background-color: #ffffff;
-        }
-        
-        .checkbox-label input[type="checkbox"]:checked::before {
-            transform: scale(1);
-        }
-
-        /* Signature Area */
-        .signature-wrapper {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 5px;
-            margin-top: 10px;
-        }
-        
-        canvas#signature-pad {
-            width: 100%;
-            height: 200px;
-            border: 1px dashed #cbd5e1;
-            border-radius: 4px;
-            cursor: crosshair;
-        }
-
-        .clear-btn {
-            background: transparent;
-            color: #9ca3af;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-top: 10px;
-            float: right;
-            transition: all 0.2s;
-        }
-
-        .clear-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
-        /* Submit Button matching the rounded purple gradient style */
-        .submit-btn {
-            background: linear-gradient(135deg, #7ed994 0%, #5cb672 100%);
-            color: #064e3b;
-            border: none;
-            padding: 18px 24px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px; /* Pill shape */
-            cursor: pointer;
-            width: 100%;
-            margin-top: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(126, 217, 148, 0.3);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(126, 217, 148, 0.4);
-        }
-
-        /* Status Messages */
-        #status-msg {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            font-weight: 600;
-        }
-        
-        .success { background: rgba(126, 217, 148, 0.1); border: 1px solid #7ed994; color: #7ed994; }
-        .error { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; }
-
-        /* --- PDF PRINT STYLES --- */
-        /* These styles activate ONLY when generating the PDF to save ink and look professional */
-        .pdf-mode { background: #ffffff !important; color: #000000 !important; }
-        .pdf-mode::before { display: none !important; }
-        .pdf-mode .brand-title, .pdf-mode .brand-subtitle, .pdf-mode h2, .pdf-mode .intro-text { color: #000000 !important; }
-        .pdf-mode h3 { color: #000000 !important; border-bottom-color: #000000 !important; }
-        .pdf-mode label, .pdf-mode .sub-label, .pdf-mode .checkbox-label { color: #000000 !important; }
-        .pdf-mode input, .pdf-mode textarea { 
-            background: #ffffff !important; 
-            border: 1px solid #000000 !important; 
-            color: #000000 !important; 
-        }
-        .pdf-mode .checkbox-label input[type="checkbox"] { border-color: #000000 !important; }
-        .pdf-mode .checkbox-label input[type="checkbox"]::before { box-shadow: inset 1em 1em #000; background-color: #000; }
-        .pdf-mode .clear-btn, .pdf-mode .submit-btn { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Questionnaire · Pilates with Nic</title>
+<meta name="description" content="Health questionnaire for Pilates with Nic. Completed online, sent as a PDF directly to Nic.">
+<meta name="theme-color" content="#0f0a12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237c3f68'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23a9c3a7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0a12;--cream:#f5efe6;--cream-dim:rgba(245,239,230,.62);--plum:#7c3f68;--plum-deep:#43203c;--sage:#a9c3a7;--orchid:#d99ac6;--glass:rgba(245,239,230,.045);--line:rgba(245,239,230,.14);--radius:22px;--display:'Fraunces',serif;--body:'Space Grotesk',sans-serif;color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);background-image:radial-gradient(1200px 700px at 85% -10%,rgba(124,63,104,.22),transparent 60%),radial-gradient(900px 600px at -10% 40%,rgba(111,143,114,.14),transparent 60%);color:var(--cream);font:400 1rem/1.65 var(--body)}
+::selection{background:var(--orchid);color:var(--plum-deep)}
+:focus-visible{outline:2px solid var(--orchid);outline-offset:3px;border-radius:6px}
+a{color:inherit}
+.wrap{width:min(760px,92%);margin:0 auto}
+.back{position:fixed;top:1rem;left:1rem;z-index:5;font:500 .85rem var(--body);color:var(--sage);text-decoration:none;background:rgba(15,10,18,.6);backdrop-filter:blur(8px);padding:.55rem 1rem;border-radius:999px;border:1px solid var(--line)}
+.back:hover{color:var(--cream)}
+header{padding:5.5rem 0 1.8rem;text-align:center}
+header .mark{width:56px;height:56px;border-radius:50%;margin:0 auto 1.2rem;background:radial-gradient(circle at 35% 30%,var(--orchid),var(--plum) 60%,var(--plum-deep));box-shadow:0 0 24px rgba(217,154,198,.45)}
+h1{font:400 clamp(2rem,6vw,2.8rem)/1.1 var(--display)}
+h1 em{font-style:italic;color:var(--orchid)}
+.intro{color:var(--cream-dim);max-width:52ch;margin:1rem auto 0;font-size:.97rem}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.panel{padding:clamp(1.4rem,4vw,2.4rem);margin:2rem 0 4rem}
+.sec{font:600 .72rem var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin:1.9rem 0 .9rem}
+.sec:first-child{margin-top:0}
+.field{margin-bottom:1rem}
+.field>span{display:block;font:500 .82rem var(--body);color:var(--cream-dim);margin-bottom:.4rem}
+.input,select,textarea{width:100%;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(15,10,18,.5);color:var(--cream);font:400 .95rem var(--body)}
+.input::placeholder,textarea::placeholder{color:rgba(245,239,230,.35)}
+textarea{min-height:96px;resize:vertical}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
+.q{border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;background:rgba(15,10,18,.35)}
+.q legend{font:400 .92rem/1.5 var(--body);color:var(--cream-dim);padding:0 .3rem}
+.yns{display:flex;gap:.5rem;margin-top:.7rem}
+.yn{position:relative}
+.yn input{position:absolute;opacity:0;width:1px;height:1px}
+.yn span{display:inline-block;padding:.45rem 1.2rem;border-radius:999px;border:1px solid var(--line);color:var(--cream-dim);font:500 .85rem var(--body);cursor:pointer;transition:.2s}
+.yn span:hover{color:var(--cream)}
+.yn input:checked+span{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
+.yn input:focus-visible+span{outline:2px solid var(--orchid);outline-offset:2px}
+.sig-wrap{border:1px solid var(--line);border-radius:16px;background:rgba(15,10,18,.35);padding:1rem;position:relative}
+.sig-wrap canvas{width:100%;height:180px;background:#f5efe6;border-radius:10px;cursor:crosshair;display:block}
+.sig-actions{display:flex;gap:.6rem;margin-top:.7rem;justify-content:flex-end}
+.sig-clear{background:none;border:1px solid var(--line);color:var(--cream-dim);padding:.4rem .9rem;border-radius:999px;font:500 .8rem var(--body);cursor:pointer}
+.sig-clear:hover{color:var(--cream)}
+.declare{display:flex;gap:.7rem;align-items:flex-start;margin-top:1.4rem;font-size:.9rem;color:var(--cream-dim)}
+.declare input{width:1.2rem;height:1.2rem;margin-top:.15rem;accent-color:var(--orchid);flex:none}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.7rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.6rem;border-radius:999px;font:600 .95rem/1 var(--body);letter-spacing:.02em;border:1px solid transparent;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s}
+.btn.primary{background:linear-gradient(135deg,#8a4b76,#5d2b50 55%,#3c1c38);color:#fdf7f2;box-shadow:0 8px 30px -8px rgba(217,154,198,.45)}
+.btn.primary:hover{transform:translateY(-2px)}
+.btn.ghost{color:var(--cream);border-color:rgba(245,239,230,.25);background:rgba(245,239,230,.04)}
+.btn.ghost:hover{background:rgba(245,239,230,.1)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.note{font-size:.78rem;color:var(--cream-dim);margin-top:1.1rem}
+.toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,20px);background:var(--plum);color:#fdf7f2;padding:.75rem 1.3rem;border-radius:999px;font:500 .85rem var(--body);opacity:0;pointer-events:none;transition:.35s;z-index:120;max-width:92%;text-align:center;box-shadow:0 10px 30px -10px rgba(217,154,198,.5)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
+<a class="back" href="index.html">← Pilates with Nic</a>
 
-<!-- The wrapper that will be converted to PDF -->
-<div id="pdf-wrapper">
-    <div class="container">
-        
-        <div class="brand-header">
-            <h1 class="brand-title">Pilates</h1>
-            <h1 class="brand-subtitle">with Nic</h1>
-        </div>
+<header>
+  <div class="mark" aria-hidden="true"></div>
+  <h1>Health <em>questionnaire</em></h1>
+  <p class="intro">A few quick questions before your first class. When you're done, your answers become a neat PDF that goes straight to Nic — nothing is stored on this website.</p>
+</header>
 
-        <h2>Health & Safety Questionnaire</h2>
-        <p class="intro-text">Please complete this form accurately to ensure safe and effective sessions. All information provided will be kept strictly confidential.</p>
-        
-        <!-- Note the enctype for file uploads -->
-        <form id="health-form" action="https://formspree.io/f/mnpawvye" method="POST" enctype="multipart/form-data">
-            
-            <input type="hidden" name="_subject" id="email-subject" value="New Health Questionnaire Submission">
+<div class="wrap">
+<form id="hq" class="glass panel">
+  <p class="sec">1 · About you</p>
+  <div class="field"><span>Full name *</span><input class="input" id="fname" type="text" autocomplete="name" placeholder="e.g. Jane Smith" required></div>
+  <div class="field"><span>Phone</span><input class="input" id="fphone" type="tel" autocomplete="tel" placeholder="e.g. 07xxx xxx xxx"></div>
+  <div class="field"><span>Email</span><input class="input" id="femail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+  <div class="field"><span>Which session will you attend?</span>
+    <select id="fsession" class="input">
+      <optgroup label="Wonford Community &amp; Learning Centre">
+        <option>Monday 09:30 – 10:30</option><option>Thursday 09:30 – 10:30</option>
+      </optgroup>
+      <optgroup label="Exwick Parish Hall"><option>Monday 18:00 – 19:00</option></optgroup>
+      <optgroup label="Exminster Victory Hall"><option>Tuesday 09:30 – 10:30</option><option>Tuesday 10:40 – 11:40</option></optgroup>
+    </select>
+  </div>
 
-            <!-- SECTION 1 -->
-            <h3>1. Personal Details</h3>
-            
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="Full Name" required placeholder="Jane Doe">
-            </div>
+  <p class="sec">2 · Your health — please answer honestly</p>
 
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="Date of Birth" required>
-            </div>
+  <fieldset class="q" data-q="1. Heart condition"><legend>Have you ever been told you have a heart condition and that you should only do medically supervised exercise?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q1" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="2. Chest pain during activity"><legend>Do you feel pain in your chest when you do physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q2" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q2" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="3. Chest pain at rest"><legend>In the past month, have you had chest pain when you were not doing physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q3" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q3" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="4. Dizziness / fainting"><legend>Do you lose your balance because of dizziness, or do you ever lose consciousness?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q4" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q4" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="5. Bone / joint problem"><legend>Do you have a bone or joint problem that could be made worse by a change in your physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q5" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q5" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="6. BP / heart medication"><legend>Is your doctor currently prescribing medicine for your blood pressure or a heart condition?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q6" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q6" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="7. Pregnancy / postpartum"><legend>Are you currently pregnant, or less than 12 months after giving birth?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q7" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q7" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="8. High / low blood pressure"><legend>Do you have high or low blood pressure?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q8" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q8" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="9. Recent surgery / injury"><legend>Have you had any recent surgery or injury?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q9" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q9" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" data-q="10. Prescribed medication"><legend>Are you currently taking any prescribed medication?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q10" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q10" value="Yes"><span>Yes</span></label></div></fieldset>
 
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="Phone Number" required placeholder="07123 456789">
-            </div>
+  <div id="detailsWrap" hidden>
+    <p class="sec">3 · Tell us about any "Yes" answers</p>
+    <div class="field"><textarea id="fdetails" placeholder="e.g. Q5 — knee surgery in 2024, fully recovered but avoid deep lunges…"></textarea></div>
+  </div>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="Email Address" required placeholder="jane@example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="emergency">Emergency Contact (Name & Number)</label>
-                <input type="text" id="emergency" name="Emergency Contact" required placeholder="John Doe - 07987 654321">
-            </div>
-
-            <!-- SECTION 2 -->
-            <h3>2. Medical History & Lifestyle</h3>
-            <span class="sub-label">Do you suffer from, or have you ever suffered from, any of the following? (Tick all that apply)</span>
-            
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="High/Low Blood Pressure"> High/Low Blood Pressure</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Heart Condition"> Heart Condition</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Asthma/Respiratory"> Asthma / Respiratory</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Joint/Bone/Muscle issues"> Joint / Bone / Muscle issues</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Spinal/Back Problems"> Spinal / Back Problems</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Diabetes"> Diabetes</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Epilepsy"> Epilepsy</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Currently Pregnant"> Currently Pregnant</label>
-                <label class="checkbox-label"><input type="checkbox" name="Conditions" value="Recent Surgery (last 12 months)"> Recent Surgery (last 12 months)</label>
-            </div>
-
-            <div class="form-group">
-                <label for="medications">Are you currently taking any medications?</label>
-                <span class="sub-label">If yes, please detail:</span>
-                <textarea id="medications" name="Medications" rows="2" placeholder="Leave blank if none"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="details">Please provide further details for any boxes ticked above:</label>
-                <span class="sub-label">Or list any other injuries, conditions, or physical limitations:</span>
-                <textarea id="details" name="Medical Details" rows="3" placeholder="Help me adapt exercises safely for you..."></textarea>
-            </div>
-
-            <!-- SECTION 3 -->
-            <h3>3. Goals & Experience</h3>
-            <div class="form-group">
-                <label for="experience">Have you done Pilates before?</label>
-                <input type="text" id="experience" name="Pilates Experience" placeholder="e.g., Yes, 2 years of mat classes, or No, complete beginner">
-            </div>
-
-            <div class="form-group">
-                <label for="goals">What are your main goals for attending these Pilates classes?</label>
-                <textarea id="goals" name="Fitness Goals" rows="2" placeholder="e.g., Improve flexibility, core strength, recover from injury..."></textarea>
-            </div>
-
-            <!-- SECTION 4 -->
-            <h3>4. Client Declaration & Signature</h3>
-            <p class="sub-label" style="text-align: justify; margin-bottom: 20px;">
-                By signing below, I confirm that the information provided is correct to the best of my knowledge. 
-                I understand that Pilates involves physical exertion and I participate at my own risk. 
-                I agree to inform the instructor immediately of any changes to my medical status before participating in any future class.
-                I consent to my data being stored securely in accordance with standard privacy policies.
-            </p>
-
-            <div class="form-group">
-                <label>Sign Here (Use your mouse or finger):</label>
-                <div class="signature-wrapper">
-                    <canvas id="signature-pad"></canvas>
-                </div>
-                <button type="button" class="clear-btn" id="clear-sig">Clear Signature</button>
-                <div style="clear: both;"></div>
-            </div>
-
-            <!-- Submit Elements -->
-            <button type="submit" class="submit-btn" id="submit-btn">Submit Questionnaire</button>
-            <div id="status-msg"></div>
-
-        </form>
+  <p class="sec">4 · Your signature</p>
+  <div class="sig-wrap">
+    <canvas id="sigCanvas"></canvas>
+    <div class="sig-actions">
+      <button type="button" class="sig-clear" id="sigClear">Clear signature</button>
     </div>
+  </div>
+  <p class="note" style="margin-top:.6rem">By signing, you confirm the information above is accurate to the best of your knowledge.</p>
+
+  <label class="declare"><input type="checkbox" id="fdeclare" required> I confirm the information above is accurate and I understand I'll complete any further details with Nic at my first class.</label>
+
+  <div class="actions">
+    <button type="submit" class="btn primary" id="submitBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+      Generate PDF &amp; email Nic
+    </button>
+    <button type="button" class="btn ghost" id="previewBtn">Preview PDF</button>
+  </div>
+  <p class="note">Your PDF downloads automatically — just attach it to the email that opens. Nothing is stored on this website.</p>
+</form>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<!-- jsPDF + Signature Pad from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
 <script>
-    // Initialize Signature Pad
-    const canvas = document.getElementById('signature-pad');
-    const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgb(255, 255, 255)',
-        penColor: 'rgb(0, 0, 0)'
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const toast = $('#toast');
+  let tT;
+  const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 3500); };
+
+  // Show details textarea if any Yes is selected
+  $$('input[type=radio][value=Yes]').forEach(r => r.addEventListener('change', () => {
+    const anyYes = $$('input[type=radio][value=Yes]:checked').some(x => x.checked);
+    $('#detailsWrap').hidden = !anyYes;
+  }));
+
+  // Signature pad
+  const canvas = $('#sigCanvas');
+  const sigPad = new SignaturePad(canvas, { backgroundColor: '#f5efe6', penColor: '#43203c', minWidth: 1, maxWidth: 2.5 });
+  const resizeCanvas = () => {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext('2d').scale(ratio, ratio);
+    sigPad.clear();
+  };
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  $('#sigClear').addEventListener('click', () => sigPad.clear());
+
+  // Gather form data
+  function gatherData() {
+    const data = {
+      name: $('#fname').value.trim(),
+      phone: $('#fphone').value.trim(),
+      email: $('#femail').value.trim(),
+      session: $('#fsession').value,
+      details: $('#fdetails').value.trim(),
+      answers: []
+    };
+    $$('.q').forEach(q => {
+      const label = q.dataset.q;
+      const checked = q.querySelector('input:checked');
+      data.answers.push({ q: label, a: checked ? checked.value : '—' });
+    });
+    return data;
+  }
+
+  // Build the PDF
+  async function buildPDF(data, sigDataUrl) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = 210, M = 20, CW = W - M * 2;
+    let y = 20;
+
+    // Header band
+    doc.setFillColor(124, 63, 104);
+    doc.rect(0, 0, W, 32, 'F');
+    doc.setTextColor(245, 239, 230);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.text('Pilates with Nic', M, 16);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('Health Questionnaire', M, 24);
+
+    y = 42;
+    doc.setTextColor(60, 30, 50);
+
+    // Client info block
+    doc.setFillColor(245, 239, 230);
+    doc.roundedRect(M, y, CW, 36, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('Client details', M + 4, y + 7);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(67, 32, 60);
+    const info = [
+      ['Name:', data.name || '—'],
+      ['Phone:', data.phone || '—'],
+      ['Email:', data.email || '—'],
+      ['Session:', data.session]
+    ];
+    info.forEach((row, i) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(row[0], M + 4, y + 14 + i * 5.5);
+      doc.setFont('helvetica', 'normal');
+      doc.text(row[1], M + 30, y + 14 + i * 5.5);
+    });
+    y += 42;
+
+    // Health questions
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(60, 30, 50);
+    doc.text('Health questions', M, y);
+    y += 6;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5);
+    data.answers.forEach(a => {
+      const qText = doc.splitTextToSize(a.q, CW - 20);
+      const h = qText.length * 4.5 + 5;
+      if (y + h > 260) { doc.addPage(); y = 20; }
+      doc.setTextColor(124, 63, 104);
+      doc.setFont('helvetica', 'bold');
+      doc.text(a.a === 'Yes' ? '  YES' : '  NO', M + 2, y + 4);
+      doc.setTextColor(67, 32, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text(qText, M + 20, y + 4);
+      y += h + 2;
     });
 
-    // Fix scaling for crisp lines on mobile devices
-    function resizeCanvas() {
-        const ratio =  Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear();
+    // Details
+    if (data.details) {
+      if (y > 240) { doc.addPage(); y = 20; }
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(60, 30, 50);
+      doc.text('Additional details', M, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(67, 32, 60);
+      const dt = doc.splitTextToSize(data.details, CW - 4);
+      doc.text(dt, M + 4, y);
+      y += dt.length * 5 + 8;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
 
-    // Clear Signature logic
-    document.getElementById('clear-sig').addEventListener('click', () => {
-        signaturePad.clear();
-    });
+    // Signature
+    if (y > 220) { doc.addPage(); y = 20; }
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(60, 30, 50);
+    doc.text('Signature', M, y);
+    y += 4;
+    doc.setDrawColor(169, 195, 167);
+    doc.line(M, y, M + CW, y);
+    y += 2;
+    if (sigDataUrl) {
+      doc.addImage(sigDataUrl, 'PNG', M + 4, y, 70, 28);
+      y += 30;
+    } else {
+      y += 28;
+    }
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9);
+    doc.setTextColor(124, 63, 104);
+    doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }), M + 4, y);
 
-    // Handle Form Submission, PDF Creation, and Attachment
-    document.getElementById('health-form').addEventListener('submit', async function(event) {
-        event.preventDefault(); 
-        
-        if (signaturePad.isEmpty()) {
-            alert("Please provide your signature before submitting.");
-            return;
-        }
+    // Footer
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(169, 195, 167);
+    doc.text('Pilates with Nic · pilateswithnic.github.io · ngardner3000@gmail.com · 07792 586540', W / 2, 290, { align: 'center' });
 
-        const form = event.target;
-        const submitBtn = document.getElementById('submit-btn');
-        const statusMsg = document.getElementById('status-msg');
-        const fullName = document.getElementById('fullName').value;
+    return doc;
+  }
 
-        // Update subject line
-        document.getElementById('email-subject').value = `Signed Health Questionnaire: ${fullName}`;
+  // Submit flow
+  $('#hq').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!sigPad.isEmpty() === false) {
+      showToast('Please add your signature before submitting');
+      return;
+    }
+    if (!$('#fdeclare').checked) {
+      showToast('Please confirm the declaration');
+      return;
+    }
+    const btn = $('#submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Generating PDF…';
 
-        // UI Loading State
-        submitBtn.innerText = 'Generating PDF & Sending...';
-        submitBtn.disabled = true;
-        statusMsg.style.display = 'none';
+    try {
+      const data = gatherData();
+      const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/png');
+      const doc = await buildPDF(data, sigDataUrl);
+      const safeName = (data.name || 'questionnaire').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const filename = `PilatesWithNic_HealthQ_${safeName}.pdf`;
+      doc.save(filename);
 
-        // --- STEP 1: PREPARE UI FOR PDF ---
-        const wrapper = document.getElementById('pdf-wrapper');
-        document.body.classList.add('pdf-mode'); // Turns background white, text black for clean print
+      // Open email
+      const subject = `Health Questionnaire — ${data.name || 'new client'}`;
+      const body = `Hi Nic,\n\nPlease find attached my completed health questionnaire (${filename}).\n\nName: ${data.name}\nSession: ${data.session}\n\nThank you!`;
+      window.location.href = `mailto:ngardner3000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-        const pdfOptions = {
-            margin:       15,
-            filename:     `Pilates_Health_Form_${fullName.replace(/\s+/g, '_')}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+      showToast('✓ PDF downloaded — please attach it to the email that just opened');
+    } catch (err) {
+      showToast('Something went wrong — please try again');
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg> Generate PDF &amp; email Nic';
+    }
+  });
 
-        try {
-            // --- STEP 2: GENERATE PDF AS A FILE (BLOB) ---
-            const pdfBlob = await html2pdf().set(pdfOptions).from(wrapper).output('blob');
-            
-            // Revert styles back to the dark nocturnal theme
-            document.body.classList.remove('pdf-mode');
-
-            // --- STEP 3: PREPARE FORMSPREE SUBMISSION ---
-            const formData = new FormData(form);
-            
-            // ATTACH THE PDF DIRECTLY TO THE FORM DATA
-            // Note: For this attachment to pass through Formspree to your email, 
-            // the specific Formspree tier being used must support file uploads.
-            formData.append('Signed_Questionnaire_PDF', pdfBlob, pdfOptions.filename);
-
-            // --- STEP 4: SEND TO FORMSPREE ---
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-
-            if (response.ok) {
-                // Trigger local download for the client as a backup/receipt
-                html2pdf().set(pdfOptions).from(wrapper).save();
-                
-                statusMsg.innerText = "Success! Your form and signed PDF have been submitted securely.";
-                statusMsg.className = "success";
-                statusMsg.style.display = "block";
-                
-                form.reset(); 
-                signaturePad.clear();
-            } else {
-                const errorData = await response.json();
-                console.error('Formspree Error:', errorData);
-                throw new Error("Formspree rejected the submission. Ensure file uploads are enabled on your Formspree plan.");
-            }
-
-        } catch (error) {
-            console.error(error);
-            document.body.classList.remove('pdf-mode'); // Ensure UI resets on error
-            statusMsg.innerText = "Oops! Something went wrong submitting your form. Please try again.";
-            statusMsg.className = "error";
-            statusMsg.style.display = "block";
-        } finally {
-            submitBtn.innerText = 'Submit Questionnaire';
-            submitBtn.disabled = false;
-        }
-    });
+  // Preview
+  $('#previewBtn').addEventListener('click', async () => {
+    const data = gatherData();
+    const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/png');
+    const doc = await buildPDF(data, sigDataUrl);
+    doc.output('dataurlnewwindow');
+  });
+})();
 </script>
-
 </body>
 </html>
