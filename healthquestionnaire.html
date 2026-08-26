@@ -21,7 +21,7 @@ a{color:inherit}
 .back{position:fixed;top:1rem;left:1rem;z-index:5;font:500 .85rem var(--body);color:var(--sage);text-decoration:none;background:rgba(15,10,18,.6);backdrop-filter:blur(8px);padding:.55rem 1rem;border-radius:999px;border:1px solid var(--line)}
 .back:hover{color:var(--cream)}
 header{padding:5.5rem 0 1.8rem;text-align:center}
-header .mark{width:56px;height:56px;border-radius:50%;margin:0 auto 1.2rem;background:radial-gradient(circle at 35% 30%,var(--orchid),var(--plum) 60%,var(--plum-deep));box-shadow:0 0 24px rgba(217,154,198,.45)}
+#mandala{width:180px;margin:0 auto 1.2rem;filter:drop-shadow(0 0 26px rgba(217,154,198,.4))}
 h1{font:400 clamp(2rem,6vw,2.8rem)/1.1 var(--display)}
 h1 em{font-style:italic;color:var(--orchid)}
 .intro{color:var(--cream-dim);max-width:52ch;margin:1rem auto 0;font-size:.97rem}
@@ -33,7 +33,7 @@ h1 em{font-style:italic;color:var(--orchid)}
 .field>span{display:block;font:500 .82rem var(--body);color:var(--cream-dim);margin-bottom:.4rem}
 .input,select,textarea{width:100%;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(15,10,18,.5);color:var(--cream);font:400 .95rem var(--body)}
 .input::placeholder,textarea::placeholder{color:rgba(245,239,230,.35)}
-textarea{min-height:96px;resize:vertical}
+textarea{min-height:80px;resize:vertical}
 select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
 .q{border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;background:rgba(15,10,18,.35)}
 .q legend{font:400 .92rem/1.5 var(--body);color:var(--cream-dim);padding:0 .3rem}
@@ -44,6 +44,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .yn span:hover{color:var(--cream)}
 .yn input:checked+span{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
 .yn input:focus-visible+span{outline:2px solid var(--orchid);outline-offset:2px}
+.qdetail{margin-top:.8rem}
 .sig-wrap{border:1px solid var(--line);border-radius:16px;background:rgba(15,10,18,.35);padding:1rem}
 .sig-wrap canvas{width:100%;height:180px;background:#f5efe6;border-radius:10px;cursor:crosshair;display:block;touch-action:none}
 .sig-actions{display:flex;gap:.6rem;margin-top:.7rem;justify-content:flex-end}
@@ -61,6 +62,8 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .note{font-size:.78rem;color:var(--cream-dim);margin-top:1.1rem}
 .toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,20px);background:var(--plum);color:#fdf7f2;padding:.75rem 1.3rem;border-radius:999px;font:500 .85rem var(--body);opacity:0;pointer-events:none;transition:.35s;z-index:120;max-width:92%;text-align:center;box-shadow:0 10px 30px -10px rgba(217,154,198,.5)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+/* mandala (same as main site) */
+.m-center{fill:#f5efe6}.m-c-ring{fill:none;stroke:#7c3f68;stroke-width:1.8}.m-flower{fill:#7c3f68;stroke:#f5efe6;stroke-width:1.4}.m-flower-in{fill:none;stroke:#f5efe6;stroke-width:.9;opacity:.7}.m-ring-line{fill:none;stroke:#7c3f68;stroke-width:1.2}.m-dot{fill:#f5efe6}.m-dot-plum{fill:#7c3f68}.m-band{fill:none;stroke:#7c3f68;stroke-width:14;opacity:.9}.m-band-edge{fill:none;stroke:#f5efe6;stroke-width:1.2;opacity:.8}.m-mid{fill:#a9c3a7;stroke:#7c3f68;stroke-width:1.2}.m-leaf{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.1}.m-vein{fill:none;stroke:#f5efe6;stroke-width:.7;opacity:.8}.m-out-sage{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.3}.m-out-plum{fill:#7c3f68;stroke:#43203c;stroke-width:1.3}.m-out-in{fill:none;stroke:#f5efe6;stroke-width:.9}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -68,7 +71,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 <a class="back" href="index.html">← Pilates with Nic</a>
 
 <header>
-  <div class="mark" aria-hidden="true"></div>
+  <div id="mandala" aria-hidden="true"></div>
   <h1>Health <em>questionnaire</em></h1>
   <p class="intro">A few quick questions before your first class. When you're done, your answers become a neat signed PDF that goes straight to Nic — nothing is stored on this website.</p>
 </header>
@@ -99,33 +102,47 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
   <p class="sec">2 · Your health — please answer honestly</p>
 
-  <fieldset class="q" data-q="1. Heart condition"><legend>Have you ever been told you have a heart condition and that you should only do medically supervised exercise?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q1" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="2. Chest pain during activity"><legend>Do you feel pain in your chest when you do physical activity?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q2" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q2" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="3. Chest pain at rest"><legend>In the past month, have you had chest pain when you were not doing physical activity?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q3" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q3" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="4. Dizziness / fainting"><legend>Do you lose your balance because of dizziness, or do you ever lose consciousness?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q4" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q4" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="5. Bone / joint problem"><legend>Do you have a bone or joint problem that could be made worse by a change in your physical activity?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q5" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q5" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="6. BP / heart medication"><legend>Is your doctor currently prescribing medicine for your blood pressure or a heart condition?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q6" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q6" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="7. Pregnancy / postpartum"><legend>Are you currently pregnant, or less than 12 months after giving birth?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q7" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q7" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="8. High / low blood pressure"><legend>Do you have high or low blood pressure?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q8" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q8" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="9. Recent surgery / injury"><legend>Have you had any recent surgery or injury?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q9" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q9" value="Yes"><span>Yes</span></label></div></fieldset>
-  <fieldset class="q" data-q="10. Prescribed medication"><legend>Are you currently taking any prescribed medication?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q10" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q10" value="Yes"><span>Yes</span></label></div></fieldset>
+  <fieldset class="q" id="q1"><legend>Have you ever been told you have a heart condition and that you should only do medically supervised exercise?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q1" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
 
-  <div id="detailsWrap" hidden>
-    <p class="sec">3 · Tell us about any "Yes" answers</p>
-    <div class="field"><textarea id="fdetails" placeholder="e.g. Q5 — knee surgery in 2024, fully recovered but avoid deep lunges…"></textarea></div>
-  </div>
+  <fieldset class="q" id="q2"><legend>Do you feel pain in your chest when you do physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q2" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q2" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
 
-  <p class="sec">4 · Your signature *</p>
+  <fieldset class="q" id="q3"><legend>In the past month, have you had chest pain when you were not doing physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q3" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q3" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q4"><legend>Do you lose your balance because of dizziness, or do you ever lose consciousness?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q4" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q4" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q5"><legend>Do you have a bone or joint problem that could be made worse by a change in your physical activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q5" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q5" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q6"><legend>Is your doctor currently prescribing medicine for your blood pressure or a heart condition?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q6" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q6" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q7"><legend id="q7legend">Are you currently pregnant, or less than 12 months after giving birth?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q7" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q7" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q8"><legend>Do you have high or low blood pressure?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q8" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q8" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q9"><legend>Have you had any recent surgery or injury?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q9" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q9" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <fieldset class="q" id="q10"><legend>Are you currently taking any prescribed medication?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q10" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q10" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+
+  <p class="sec">3 · Your signature *</p>
   <div class="sig-wrap">
     <canvas id="sigCanvas"></canvas>
     <div class="sig-actions"><button type="button" class="sig-clear" id="sigClear">Clear signature</button></div>
@@ -155,16 +172,52 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   'use strict';
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const toast = $('#toast');
   let tT;
   const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 3500); };
 
-  /* show details textarea only if any Yes */
-  $$('input[type=radio][value=Yes]').forEach(r => r.addEventListener('change', () => {
-    $('#detailsWrap').hidden = !$$('input[type=radio][value=Yes]').some(x => x.checked);
+  /* ---------- mandala header (same artwork as the main site) ---------- */
+  (() => {
+    const petal = (r0, r1, w) =>
+      `M0 <LaTex>id_1</LaTex>{w} <LaTex>id_2</LaTex>{w} <LaTex>id_3</LaTex>{-r1}` +
+      ` C <LaTex>id_4</LaTex>{-(r1 - (r1-r0)*.25)}, <LaTex>id_5</LaTex>{-(r0 + (r1-r0)*.35)}, 0 <LaTex>id_6</LaTex>{off + (360/n)*i})"><LaTex>id_7</LaTex>{-R}" r="<LaTex>id_8</LaTex>{cls}"/>`);
+    const leaf = (r0, r1, w) => `<path d="<LaTex>id_9</LaTex>{-r0-3} L 0 <LaTex>id_10</LaTex>{rev?360:0}" to="<LaTex>id_11</LaTex>{dur}s" repeatCount="indefinite"/>`;
+    let outer = '';
+    for (let i = 0; i < 16; i++) {
+      const cls = i % 2 ? 'm-out-sage' : 'm-out-plum';
+      outer += `<g transform="rotate(<LaTex>id_12</LaTex>{petal(170,245,32)}" class="<LaTex>id_13</LaTex>{petal(180,235,24)}" class="m-out-in"/></g>`;
+    }
+    let midBand = '';
+    for (let i = 0; i < 12; i++) {
+      midBand += i % 2 === 0
+        ? `<g transform="rotate(<LaTex>id_14</LaTex>{leaf(100,145,12)}</g>`
+        : `<g transform="rotate(<LaTex>id_15</LaTex>{petal(22,68,18)}" class="m-flower"/><path d="<LaTex>id_16</LaTex>('#mandala').innerHTML = `
+    <svg viewBox="-270 -270 540 540">
+      <g><LaTex>id_17</LaTex>{outer}</g>
+      <g><LaTex>id_18</LaTex>{midBand}<LaTex>id_19</LaTex>{dots(24,85,2)}</g>
+      <g><LaTex>id_20</LaTex>{flower}<circle r="22" class="m-center"/><circle r="26" class="m-c-ring"/><circle r="18" class="m-c-ring"/><circle r="8" fill="#7c3f68"/></g>
+    </svg>`;
+    if (reduced) $('#mandala svg').pauseAnimations();
+  })();
+
+  /* ---------- per-question "details" appears only under a Yes ---------- */
+  $$('.q').forEach(q => {
+    q.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', () => {
+      const wrap = q.querySelector('.qdetail');
+      if (wrap) wrap.hidden = !(q.querySelector('input:checked') && q.querySelector('input:checked').value === 'Yes');
+    }));
+  });
+
+  /* ---------- gender-aware question 7 ---------- */
+  const PREG = 'Are you currently pregnant, or less than 12 months after giving birth?';
+  const HERN = 'Do you have, or have you been treated for, a hernia (for example an inguinal hernia)?';
+  $$('input[name=gender]').forEach(r => r.addEventListener('change', () => {
+    const male = document.querySelector('input[name=gender]:checked') && document.querySelector('input[name=gender]:checked').value === 'Male';
+    $('#q7legend').textContent = male ? HERN : PREG;
   }));
 
-  /* signature pad — preserved across resizes (no more vanishing signatures!) */
+  /* ---------- signature pad ---------- */
   const canvas = $('#sigCanvas');
   const sigPad = new SignaturePad(canvas, { backgroundColor: '#f5efe6', penColor: '#43203c', minWidth: 1, maxWidth: 2.5 });
   const resizeCanvas = () => {
@@ -179,6 +232,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   window.addEventListener('resize', resizeCanvas);
   $('#sigClear').addEventListener('click', () => sigPad.clear());
 
+  /* ---------- gather ---------- */
   function gatherData() {
     const g = document.querySelector('input[name=gender]:checked');
     const data = {
@@ -187,22 +241,28 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       phone: $('#fphone').value.trim(),
       email: $('#femail').value.trim(),
       session: $('#fsession').value,
-      details: $('#fdetails').value.trim(),
       answers: []
     };
-    $$('.q').forEach(q => {
+    $$('.q').forEach((q, i) => {
       const checked = q.querySelector('input:checked');
-      data.answers.push({ q: q.dataset.q, a: checked ? checked.value : '—' });
+      const yes = checked && checked.value === 'Yes';
+      const ta = q.querySelector('.qdetail textarea');
+      data.answers.push({
+        n: i + 1,
+        full: q.querySelector('legend').textContent.trim(),
+        a: checked ? checked.value : '—',
+        detail: yes && ta ? ta.value.trim() : ''
+      });
     });
     return data;
   }
 
+  /* ---------- PDF ---------- */
   async function buildPDF(data, sigDataUrl) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
     const W = 210, M = 20, CW = W - M * 2;
 
-    /* header band */
     doc.setFillColor(124, 63, 104); doc.rect(0, 0, W, 32, 'F');
     doc.setTextColor(245, 239, 230);
     doc.setFont('helvetica', 'bold'); doc.setFontSize(22);
@@ -211,8 +271,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     doc.text('Health Questionnaire', M, 24);
 
     let y = 42;
-
-    /* client details box */
     const info = [
       ['Name:', data.name || '—'],
       ['Gender:', data.gender],
@@ -233,39 +291,31 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     });
     y += boxH + 8;
 
-    /* health questions */
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
     doc.setTextColor(60, 30, 50);
     doc.text('Health questions', M, y);
     y += 6;
     doc.setFontSize(9.5);
     data.answers.forEach(a => {
-      const qText = doc.splitTextToSize(a.q, CW - 24);
-      const h = qText.length * 4.5 + 3;
+      const qText = doc.splitTextToSize(a.n + '. ' + a.full, CW - 24);
+      let h = qText.length * 4.5 + 3;
+      const detLines = a.detail ? doc.splitTextToSize('Details: ' + a.detail, CW - 32) : null;
+      if (detLines) h += detLines.length * 4.5 + 3;
       if (y + h > 262) { doc.addPage(); y = 20; }
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(a.a === 'Yes' ? 178 : 111, a.a === 'Yes' ? 34 : 143, a.a === 'Yes' ? 34 : 114);
+      if (a.a === 'Yes') doc.setTextColor(178, 34, 34); else doc.setTextColor(111, 143, 114);
       doc.text(a.a.toUpperCase(), M + 2, y + 4);
       doc.setFont('helvetica', 'normal'); doc.setTextColor(67, 32, 60);
       doc.text(qText, M + 20, y + 4);
-      y += h + 2;
+      y += qText.length * 4.5 + 3;
+      if (detLines) {
+        doc.setFont('helvetica', 'italic'); doc.setTextColor(124, 63, 104);
+        doc.text(detLines, M + 26, y + 1);
+        y += detLines.length * 4.5 + 3;
+      }
+      y += 2;
     });
 
-    /* details */
-    if (data.details) {
-      if (y > 240) { doc.addPage(); y = 20; }
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-      doc.setTextColor(60, 30, 50);
-      doc.text('Additional details', M, y);
-      y += 6;
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-      doc.setTextColor(67, 32, 60);
-      const dt = doc.splitTextToSize(data.details, CW - 8);
-      doc.text(dt, M + 4, y);
-      y += dt.length * 5 + 8;
-    }
-
-    /* signature block — aspect-correct, page-break safe */
     if (y > 225) { doc.addPage(); y = 20; }
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
     doc.setTextColor(60, 30, 50);
@@ -287,15 +337,13 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     doc.setTextColor(124, 63, 104);
     doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), M + 2, y);
 
-    /* footer */
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
     doc.setTextColor(169, 195, 167);
     doc.text('Pilates with Nic · pilateswithnic.github.io · ngardner3000@gmail.com · 07792 586540', W / 2, 290, { align: 'center' });
-
     return doc;
   }
 
-  /* submit flow */
+  /* ---------- submit ---------- */
   $('#hq').addEventListener('submit', async e => {
     e.preventDefault();
     if (sigPad.isEmpty()) { showToast('Please add your signature before submitting ✍️'); return; }
@@ -308,29 +356,12 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       const sigDataUrl = sigPad.toDataURL('image/png');
       const doc = await buildPDF(data, sigDataUrl);
       const safeName = (data.name || 'client').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
-      const filename = `PilatesWithNic_HealthQ_${safeName}.pdf`;
-      doc.save(filename);
-      const subject = `Health Questionnaire — ${data.name || 'new client'}`;
-      const body = `Hi Nic,\n\nPlease find attached my completed health questionnaire (${filename}).\n\nName: ${data.name}\nSession: ${data.session}\n\nThank you!`;
-      window.location.href = `mailto:ngardner3000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const filename = `PilatesWithNic_HealthQ_<LaTex>id_21</LaTex>{data.name || 'new client'}`;
+      const body = `Hi Nic,\n\nPlease find attached my completed health questionnaire (<LaTex>id_22</LaTex>{data.name}\nSession: <LaTex>id_23</LaTex>{encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       showToast('✓ Signed PDF downloaded — attach it to the email that just opened');
     } catch (err) {
       console.error(err);
       showToast('Something went wrong — please try again');
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg> Generate PDF &amp; email Nic';
-    }
-  });
-
-  /* preview */
-  $('#previewBtn').addEventListener('click', async () => {
-    const data = gatherData();
-    const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/png');
-    const doc = await buildPDF(data, sigDataUrl);
-    window.open(doc.output('bloburl'), '_blank');
-  });
-})();
-</script>
-</body>
-</html>
+      btn.innerHTML = '<svg width="18" height
