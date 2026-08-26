@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Health Questionnaire · Pilates with Nic</title>
-<meta name="description" content="Health questionnaire for Pilates with Nic. Completed online, sent as a PDF directly to Nic.">
+<meta name="description" content="Health questionnaire for Pilates with Nic. Completed online, sent as a signed PDF directly to Nic.">
 <meta name="theme-color" content="#0f0a12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237c3f68'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23a9c3a7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.bunny.net">
@@ -37,15 +37,15 @@ textarea{min-height:96px;resize:vertical}
 select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
 .q{border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;background:rgba(15,10,18,.35)}
 .q legend{font:400 .92rem/1.5 var(--body);color:var(--cream-dim);padding:0 .3rem}
-.yns{display:flex;gap:.5rem;margin-top:.7rem}
+.yns{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
 .yn{position:relative}
 .yn input{position:absolute;opacity:0;width:1px;height:1px}
 .yn span{display:inline-block;padding:.45rem 1.2rem;border-radius:999px;border:1px solid var(--line);color:var(--cream-dim);font:500 .85rem var(--body);cursor:pointer;transition:.2s}
 .yn span:hover{color:var(--cream)}
 .yn input:checked+span{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
 .yn input:focus-visible+span{outline:2px solid var(--orchid);outline-offset:2px}
-.sig-wrap{border:1px solid var(--line);border-radius:16px;background:rgba(15,10,18,.35);padding:1rem;position:relative}
-.sig-wrap canvas{width:100%;height:180px;background:#f5efe6;border-radius:10px;cursor:crosshair;display:block}
+.sig-wrap{border:1px solid var(--line);border-radius:16px;background:rgba(15,10,18,.35);padding:1rem}
+.sig-wrap canvas{width:100%;height:180px;background:#f5efe6;border-radius:10px;cursor:crosshair;display:block;touch-action:none}
 .sig-actions{display:flex;gap:.6rem;margin-top:.7rem;justify-content:flex-end}
 .sig-clear{background:none;border:1px solid var(--line);color:var(--cream-dim);padding:.4rem .9rem;border-radius:999px;font:500 .8rem var(--body);cursor:pointer}
 .sig-clear:hover{color:var(--cream)}
@@ -70,13 +70,21 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 <header>
   <div class="mark" aria-hidden="true"></div>
   <h1>Health <em>questionnaire</em></h1>
-  <p class="intro">A few quick questions before your first class. When you're done, your answers become a neat PDF that goes straight to Nic — nothing is stored on this website.</p>
+  <p class="intro">A few quick questions before your first class. When you're done, your answers become a neat signed PDF that goes straight to Nic — nothing is stored on this website.</p>
 </header>
 
 <div class="wrap">
 <form id="hq" class="glass panel">
   <p class="sec">1 · About you</p>
   <div class="field"><span>Full name *</span><input class="input" id="fname" type="text" autocomplete="name" placeholder="e.g. Jane Smith" required></div>
+  <div class="field"><span>Gender</span>
+    <div class="yns">
+      <label class="yn"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+      <label class="yn"><input type="radio" name="gender" value="Male"><span>Male</span></label>
+      <label class="yn"><input type="radio" name="gender" value="Other"><span>Other</span></label>
+      <label class="yn"><input type="radio" name="gender" value="Prefer not to say"><span>Prefer not to say</span></label>
+    </div>
+  </div>
   <div class="field"><span>Phone</span><input class="input" id="fphone" type="tel" autocomplete="tel" placeholder="e.g. 07xxx xxx xxx"></div>
   <div class="field"><span>Email</span><input class="input" id="femail" type="email" autocomplete="email" placeholder="you@example.com"></div>
   <div class="field"><span>Which session will you attend?</span>
@@ -117,14 +125,12 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     <div class="field"><textarea id="fdetails" placeholder="e.g. Q5 — knee surgery in 2024, fully recovered but avoid deep lunges…"></textarea></div>
   </div>
 
-  <p class="sec">4 · Your signature</p>
+  <p class="sec">4 · Your signature *</p>
   <div class="sig-wrap">
     <canvas id="sigCanvas"></canvas>
-    <div class="sig-actions">
-      <button type="button" class="sig-clear" id="sigClear">Clear signature</button>
-    </div>
+    <div class="sig-actions"><button type="button" class="sig-clear" id="sigClear">Clear signature</button></div>
   </div>
-  <p class="note" style="margin-top:.6rem">By signing, you confirm the information above is accurate to the best of your knowledge.</p>
+  <p class="note" style="margin-top:.6rem">Sign with your finger or mouse. By signing, you confirm the information above is accurate to the best of your knowledge.</p>
 
   <label class="declare"><input type="checkbox" id="fdeclare" required> I confirm the information above is accurate and I understand I'll complete any further details with Nic at my first class.</label>
 
@@ -135,13 +141,12 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     </button>
     <button type="button" class="btn ghost" id="previewBtn">Preview PDF</button>
   </div>
-  <p class="note">Your PDF downloads automatically — just attach it to the email that opens. Nothing is stored on this website.</p>
+  <p class="note">Your signed PDF downloads automatically — just attach it to the email that opens. Nothing is stored on this website.</p>
 </form>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- jsPDF + Signature Pad from CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 
@@ -154,30 +159,31 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   let tT;
   const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 3500); };
 
-  // Show details textarea if any Yes is selected
+  /* show details textarea only if any Yes */
   $$('input[type=radio][value=Yes]').forEach(r => r.addEventListener('change', () => {
-    const anyYes = $$('input[type=radio][value=Yes]:checked').some(x => x.checked);
-    $('#detailsWrap').hidden = !anyYes;
+    $('#detailsWrap').hidden = !$$('input[type=radio][value=Yes]').some(x => x.checked);
   }));
 
-  // Signature pad
+  /* signature pad — preserved across resizes (no more vanishing signatures!) */
   const canvas = $('#sigCanvas');
   const sigPad = new SignaturePad(canvas, { backgroundColor: '#f5efe6', penColor: '#43203c', minWidth: 1, maxWidth: 2.5 });
   const resizeCanvas = () => {
+    const saved = sigPad.isEmpty() ? null : sigPad.toDataURL();
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
     canvas.width = canvas.offsetWidth * ratio;
     canvas.height = canvas.offsetHeight * ratio;
     canvas.getContext('2d').scale(ratio, ratio);
-    sigPad.clear();
+    if (saved) sigPad.fromDataURL(saved); else sigPad.clear();
   };
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
   $('#sigClear').addEventListener('click', () => sigPad.clear());
 
-  // Gather form data
   function gatherData() {
+    const g = document.querySelector('input[name=gender]:checked');
     const data = {
       name: $('#fname').value.trim(),
+      gender: g ? g.value : '—',
       phone: $('#fphone').value.trim(),
       email: $('#femail').value.trim(),
       session: $('#fsession').value,
@@ -185,169 +191,144 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       answers: []
     };
     $$('.q').forEach(q => {
-      const label = q.dataset.q;
       const checked = q.querySelector('input:checked');
-      data.answers.push({ q: label, a: checked ? checked.value : '—' });
+      data.answers.push({ q: q.dataset.q, a: checked ? checked.value : '—' });
     });
     return data;
   }
 
-  // Build the PDF
   async function buildPDF(data, sigDataUrl) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
     const W = 210, M = 20, CW = W - M * 2;
-    let y = 20;
 
-    // Header band
-    doc.setFillColor(124, 63, 104);
-    doc.rect(0, 0, W, 32, 'F');
+    /* header band */
+    doc.setFillColor(124, 63, 104); doc.rect(0, 0, W, 32, 'F');
     doc.setTextColor(245, 239, 230);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(22);
     doc.text('Pilates with Nic', M, 16);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
     doc.text('Health Questionnaire', M, 24);
 
-    y = 42;
-    doc.setTextColor(60, 30, 50);
+    let y = 42;
 
-    // Client info block
-    doc.setFillColor(245, 239, 230);
-    doc.roundedRect(M, y, CW, 36, 3, 3, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text('Client details', M + 4, y + 7);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(67, 32, 60);
+    /* client details box */
     const info = [
       ['Name:', data.name || '—'],
+      ['Gender:', data.gender],
       ['Phone:', data.phone || '—'],
       ['Email:', data.email || '—'],
       ['Session:', data.session]
     ];
+    const boxH = 12 + info.length * 5.5 + 2;
+    doc.setFillColor(245, 239, 230);
+    doc.roundedRect(M, y, CW, boxH, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.setTextColor(60, 30, 50);
+    doc.text('Client details', M + 4, y + 7);
+    doc.setFontSize(10); doc.setTextColor(67, 32, 60);
     info.forEach((row, i) => {
-      doc.setFont('helvetica', 'bold');
-      doc.text(row[0], M + 4, y + 14 + i * 5.5);
-      doc.setFont('helvetica', 'normal');
-      doc.text(row[1], M + 30, y + 14 + i * 5.5);
+      doc.setFont('helvetica', 'bold'); doc.text(row[0], M + 4, y + 14 + i * 5.5);
+      doc.setFont('helvetica', 'normal'); doc.text(row[1], M + 30, y + 14 + i * 5.5);
     });
-    y += 42;
+    y += boxH + 8;
 
-    // Health questions
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    /* health questions */
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
     doc.setTextColor(60, 30, 50);
     doc.text('Health questions', M, y);
     y += 6;
-
-    doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     data.answers.forEach(a => {
-      const qText = doc.splitTextToSize(a.q, CW - 20);
-      const h = qText.length * 4.5 + 5;
-      if (y + h > 260) { doc.addPage(); y = 20; }
-      doc.setTextColor(124, 63, 104);
+      const qText = doc.splitTextToSize(a.q, CW - 24);
+      const h = qText.length * 4.5 + 3;
+      if (y + h > 262) { doc.addPage(); y = 20; }
       doc.setFont('helvetica', 'bold');
-      doc.text(a.a === 'Yes' ? '  YES' : '  NO', M + 2, y + 4);
-      doc.setTextColor(67, 32, 60);
-      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(a.a === 'Yes' ? 178 : 111, a.a === 'Yes' ? 34 : 143, a.a === 'Yes' ? 34 : 114);
+      doc.text(a.a.toUpperCase(), M + 2, y + 4);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(67, 32, 60);
       doc.text(qText, M + 20, y + 4);
       y += h + 2;
     });
 
-    // Details
+    /* details */
     if (data.details) {
       if (y > 240) { doc.addPage(); y = 20; }
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
       doc.setTextColor(60, 30, 50);
       doc.text('Additional details', M, y);
       y += 6;
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
       doc.setTextColor(67, 32, 60);
-      const dt = doc.splitTextToSize(data.details, CW - 4);
+      const dt = doc.splitTextToSize(data.details, CW - 8);
       doc.text(dt, M + 4, y);
       y += dt.length * 5 + 8;
     }
 
-    // Signature
-    if (y > 220) { doc.addPage(); y = 20; }
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    /* signature block — aspect-correct, page-break safe */
+    if (y > 225) { doc.addPage(); y = 20; }
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
     doc.setTextColor(60, 30, 50);
     doc.text('Signature', M, y);
-    y += 4;
+    y += 3;
     doc.setDrawColor(169, 195, 167);
     doc.line(M, y, M + CW, y);
-    y += 2;
+    y += 3;
     if (sigDataUrl) {
-      doc.addImage(sigDataUrl, 'PNG', M + 4, y, 70, 28);
-      y += 30;
-    } else {
-      y += 28;
-    }
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(9);
+      const props = doc.getImageProperties(sigDataUrl);
+      let w = 90, h = w * props.height / props.width;
+      const maxH = 34;
+      if (h > maxH) { h = maxH; w = h * props.width / props.height; }
+      if (y + h > 278) { doc.addPage(); y = 20; }
+      doc.addImage(sigDataUrl, 'PNG', M + 2, y, w, h);
+      y += h + 4;
+    } else { y += 14; }
+    doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
     doc.setTextColor(124, 63, 104);
-    doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }), M + 4, y);
+    doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), M + 2, y);
 
-    // Footer
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    /* footer */
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
     doc.setTextColor(169, 195, 167);
     doc.text('Pilates with Nic · pilateswithnic.github.io · ngardner3000@gmail.com · 07792 586540', W / 2, 290, { align: 'center' });
 
     return doc;
   }
 
-  // Submit flow
+  /* submit flow */
   $('#hq').addEventListener('submit', async e => {
     e.preventDefault();
-    if (!sigPad.isEmpty() === false) {
-      showToast('Please add your signature before submitting');
-      return;
-    }
-    if (!$('#fdeclare').checked) {
-      showToast('Please confirm the declaration');
-      return;
-    }
+    if (sigPad.isEmpty()) { showToast('Please add your signature before submitting ✍️'); return; }
+    if (!$('#fdeclare').checked) { showToast('Please tick the declaration at the bottom'); return; }
     const btn = $('#submitBtn');
     btn.disabled = true;
     btn.textContent = 'Generating PDF…';
-
     try {
       const data = gatherData();
-      const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/png');
+      const sigDataUrl = sigPad.toDataURL('image/png');
       const doc = await buildPDF(data, sigDataUrl);
-      const safeName = (data.name || 'questionnaire').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const safeName = (data.name || 'client').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
       const filename = `PilatesWithNic_HealthQ_${safeName}.pdf`;
       doc.save(filename);
-
-      // Open email
       const subject = `Health Questionnaire — ${data.name || 'new client'}`;
       const body = `Hi Nic,\n\nPlease find attached my completed health questionnaire (${filename}).\n\nName: ${data.name}\nSession: ${data.session}\n\nThank you!`;
       window.location.href = `mailto:ngardner3000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-      showToast('✓ PDF downloaded — please attach it to the email that just opened');
+      showToast('✓ Signed PDF downloaded — attach it to the email that just opened');
     } catch (err) {
-      showToast('Something went wrong — please try again');
       console.error(err);
+      showToast('Something went wrong — please try again');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg> Generate PDF &amp; email Nic';
     }
   });
 
-  // Preview
+  /* preview */
   $('#previewBtn').addEventListener('click', async () => {
     const data = gatherData();
     const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/png');
     const doc = await buildPDF(data, sigDataUrl);
-    doc.output('dataurlnewwindow');
+    window.open(doc.output('bloburl'), '_blank');
   });
 })();
 </script>
