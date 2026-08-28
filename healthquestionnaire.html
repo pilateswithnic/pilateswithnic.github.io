@@ -33,6 +33,7 @@ h1 em{font-style:italic;color:var(--orchid)}
 .field{margin-bottom:1rem}
 .field>span{display:block;font:500 .82rem var(--body);color:var(--cream-dim);margin-bottom:.4rem}
 .input,select,textarea{width:100%;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(15,10,18,.5);color:var(--cream);font:400 .95rem var(--body)}
+.input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; cursor: pointer; }
 .input::placeholder,textarea::placeholder{color:rgba(245,239,230,.35)}
 textarea{min-height:80px;resize:vertical}
 select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
@@ -78,19 +79,32 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
 <div class="wrap">
 <form id="hq" class="glass panel">
-  <p class="sec">1 · About you</p>
-  <div class="field"><span>Full name *</span><input class="input" id="fname" type="text" autocomplete="name" placeholder="e.g. Jane Smith" required></div>
-  <div class="field"><span>Gender</span>
-    <div class="yns">
-      <label class="yn"><input type="radio" name="gender" value="Female"><span>Female</span></label>
-      <label class="yn"><input type="radio" name="gender" value="Male"><span>Male</span></label>
-      <label class="yn"><input type="radio" name="gender" value="Other"><span>Other</span></label>
-      <label class="yn"><input type="radio" name="gender" value="Prefer not to say"><span>Prefer not to say</span></label>
+  <p class="sec">1 · Personal Details</p>
+  <div class="field"><span>Full Name *</span><input class="input" id="fname" type="text" autocomplete="name" placeholder="e.g. Jane Smith" required></div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+    <div class="field"><span>Date of Birth</span><input class="input" id="fdob" type="date"></div>
+    <div class="field"><span>Gender</span>
+      <div class="yns" style="margin-top:0.4rem;">
+        <label class="yn"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+        <label class="yn"><input type="radio" name="gender" value="Male"><span>Male</span></label>
+      </div>
     </div>
   </div>
-  <div class="field"><span>Phone</span><input class="input" id="fphone" type="tel" autocomplete="tel" placeholder="e.g. 07xxx xxx xxx"></div>
-  <div class="field"><span>Email</span><input class="input" id="femail" type="email" autocomplete="email" placeholder="you@example.com"></div>
-  <div class="field"><span>Which session will you attend?</span>
+
+  <div class="field"><span>Address (Town, County, Postcode)</span><textarea class="input" id="faddress" rows="2" placeholder="e.g. 123 Example Street, Exeter, EX1 1AA"></textarea></div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+    <div class="field"><span>Phone Number</span><input class="input" id="fphone" type="tel" autocomplete="tel" placeholder="e.g. 07xxx xxx xxx"></div>
+    <div class="field"><span>Email Address</span><input class="input" id="femail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 0.5rem;">
+    <div class="field"><span>Emergency Contact Name</span><input class="input" id="femergname" type="text" placeholder="e.g. John Smith"></div>
+    <div class="field"><span>Emergency Contact Phone</span><input class="input" id="femergphone" type="tel" placeholder="e.g. 07xxx xxx xxx"></div>
+  </div>
+
+  <div class="field" style="margin-top: 1rem;"><span>Which session will you attend?</span>
     <select id="fsession" class="input">
       <optgroup label="Wonford Community &amp; Learning Centre">
         <option>Monday 09:30 – 10:30</option><option>Thursday 09:30 – 10:30</option>
@@ -100,56 +114,80 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     </select>
   </div>
 
-  <p class="sec">2 · Your health — please answer honestly</p>
+  <p class="sec" style="margin-top: 3rem;">2 · Medical Questions</p>
+  <p class="note" style="margin-top:-.5rem; margin-bottom:1.5rem;">Do you currently or have you ever suffered from any of the following conditions?</p>
 
-  <fieldset class="q"><legend>Have you ever been told you have a heart condition and that you should only do medically supervised exercise?</legend>
+  <fieldset class="q"><legend>Heart problems?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q1" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Do you feel pain in your chest when you do physical activity?</legend>
+  <fieldset class="q"><legend>Circulatory problems?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q2" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q2" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>In the past month, have you had chest pain when you were not doing physical activity?</legend>
+  <fieldset class="q"><legend>Blood pressure problems?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q3" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q3" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Do you lose your balance because of dizziness, or do you ever lose consciousness?</legend>
+  <fieldset class="q"><legend>Joint, movement problems?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q4" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q4" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Do you have a bone or joint problem that could be made worse by a change in your physical activity?</legend>
+  <fieldset class="q"><legend>Feel dizzy or imbalance during exercise?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q5" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q5" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Is your doctor currently prescribing medicine for your blood pressure or a heart condition?</legend>
+  <fieldset class="q"><legend id="q6legend">Currently pregnant or recently given birth?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q6" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q6" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend id="q7legend">Are you currently pregnant, or less than 12 months after giving birth?</legend>
+
+  <p class="sec" style="margin-top: 3rem;">3 · Health History</p>
+  <p class="note" style="margin-top:-.5rem; margin-bottom:1.5rem;">Do you currently receive medical care or do any of the following affect you?</p>
+
+  <fieldset class="q"><legend>Back/spinal pain?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q7" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q7" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Do you have high or low blood pressure?</legend>
+  <fieldset class="q"><legend>Headaches or migraines?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q8" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q8" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Have you had any recent surgery or injury?</legend>
+  <fieldset class="q"><legend>Have you recently had surgery?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q9" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q9" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <fieldset class="q"><legend>Are you currently taking any prescribed medication?</legend>
+  <fieldset class="q"><legend>Currently being prescribed medication?</legend>
     <div class="yns"><label class="yn"><input type="radio" name="q10" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q10" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please give a few details…"></textarea></div></fieldset>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
+    
+  <fieldset class="q"><legend>Recently finished a course of medication?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q11" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q11" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
+    
+  <fieldset class="q"><legend>Diabetes?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q12" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q12" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
+    
+  <fieldset class="q"><legend>Asthma or breathing problems?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q13" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q13" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
+    
+  <fieldset class="q"><legend>Is there any other reason that you believe may prevent you from taking part in any regular activity?</legend>
+    <div class="yns"><label class="yn"><input type="radio" name="q14" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q14" value="Yes"><span>Yes</span></label></div>
+    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
 
-  <p class="sec">3 · Your signature *</p>
+
+  <p class="sec" style="margin-top: 3rem;">4 · Declaration &amp; Signature *</p>
   <div class="sig-wrap">
     <canvas id="sigCanvas"></canvas>
     <div class="sig-actions"><button type="button" class="sig-clear" id="sigClear">Clear signature</button></div>
   </div>
-  <p class="note" style="margin-top:.6rem">Sign with your finger or mouse. By signing, you confirm the information above is accurate to the best of your knowledge.</p>
+  <p class="note" style="margin-top:.6rem">Sign with your finger or mouse.</p>
 
-  <label class="declare"><input type="checkbox" id="fdeclare" required> I confirm the information above is accurate and I understand I'll complete any further details with Nic at my first class.</label>
+  <label class="declare"><input type="checkbox" id="fdeclare" required> 
+    <span>I have answered all questions in this form honestly and I am aware that if I have answered yes to any of the questions I will need to consult my GP before commencing an exercise program. If I am affected by any of the questions mentioned in this form or at a later date, I agree to inform my personal trainer or instructor on any changes in health or fitness.</span>
+  </label>
 
   <div class="actions">
     <button type="submit" class="btn primary" id="submitBtn">Generate PDF &amp; email Nic</button>
@@ -161,7 +199,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
 <div class="toast" id="toast"></div>
 
-<!-- Added EmailJS CDN -->
+<!-- EmailJS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
@@ -225,12 +263,12 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     }));
   });
 
-  /* ===== gender-aware question 7 ===== */
-  const PREG = 'Are you currently pregnant, or less than 12 months after giving birth?';
-  const HERN = 'Do you have, or have you been treated for, a hernia (for example an inguinal hernia)?';
+  /* ===== gender-aware question 6 ===== */
+  const PREG = 'Currently pregnant or recently given birth?';
+  const HERN = 'Do you have, or have you been treated for, a hernia?';
   $$('input[name=gender]').forEach(r => r.addEventListener('change', () => {
     const sel = document.querySelector('input[name=gender]:checked');
-    $('#q7legend').textContent = (sel && sel.value === 'Male') ? HERN : PREG;
+    $('#q6legend').textContent = (sel && sel.value === 'Male') ? HERN : PREG;
   }));
 
   /* ===== signature pad ===== */
@@ -251,14 +289,27 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   /* ===== gather ===== */
   function gatherData() {
     const g = document.querySelector('input[name=gender]:checked');
+    
+    // Format DOB if it exists for prettier PDF rendering
+    let formattedDob = $('#fdob').value;
+    if (formattedDob) {
+      const parts = formattedDob.split('-');
+      formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0];
+    }
+
     const data = {
       name: $('#fname').value.trim(),
+      dob: formattedDob,
       gender: g ? g.value : '—',
+      address: $('#faddress').value.trim(),
       phone: $('#fphone').value.trim(),
       email: $('#femail').value.trim(),
+      emergName: $('#femergname').value.trim(),
+      emergPhone: $('#femergphone').value.trim(),
       session: $('#fsession').value,
       answers: []
     };
+    
     $$('.q').forEach((q, i) => {
       const checked = q.querySelector('input:checked');
       const yes = checked && checked.value === 'Yes';
@@ -279,80 +330,120 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
     const W = 210, M = 20, CW = W - M * 2;
 
-    doc.setFillColor(124, 63, 104); doc.rect(0, 0, W, 32, 'F');
-    doc.setTextColor(245, 239, 230);
+    // Helper to paint the entire page background dark
+    const fillPageDark = () => {
+      doc.setFillColor(15, 10, 18); // Website's exact dark background (#0f0a12)
+      doc.rect(0, 0, W, 297, 'F');
+    };
+
+    fillPageDark(); // Paint the first page
+
+    // Dark Plum Header
+    doc.setFillColor(67, 32, 60); doc.rect(0, 0, W, 32, 'F');
+    doc.setTextColor(245, 239, 230); // Website's exact cream text (#f5efe6)
     doc.setFont('helvetica', 'bold'); doc.setFontSize(22);
     doc.text('Pilates with Nic', M, 16);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-    doc.text('Health Questionnaire', M, 24);
+    doc.text('Pre Activity Readiness Questionnaire (PAR-Q)', M, 24);
 
     let y = 42;
     const info = [
       ['Name:', data.name || '—'],
+      ['DOB:', data.dob || '—'],
       ['Gender:', data.gender],
+      ['Address:', data.address || '—'],
       ['Phone:', data.phone || '—'],
       ['Email:', data.email || '—'],
+      ['Emergency:', (data.emergName || '—') + '  /  ' + (data.emergPhone || '—')],
       ['Session:', data.session]
     ];
+    
     const boxH = 12 + info.length * 5.5 + 2;
-    doc.setFillColor(245, 239, 230);
+    
+    // Slightly lighter dark box for client details contrast
+    doc.setFillColor(40, 20, 35); 
     doc.roundedRect(M, y, CW, boxH, 3, 3, 'F');
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(60, 30, 50);
+    doc.setTextColor(245, 239, 230);
     doc.text('Client details', M + 4, y + 7);
-    doc.setFontSize(10); doc.setTextColor(67, 32, 60);
+    doc.setFontSize(10);
+    
     info.forEach((row, i) => {
       doc.setFont('helvetica', 'bold'); doc.text(row[0], M + 4, y + 14 + i * 5.5);
-      doc.setFont('helvetica', 'normal'); doc.text(row[1], M + 30, y + 14 + i * 5.5);
+      doc.setFont('helvetica', 'normal'); 
+      const wrappedText = doc.splitTextToSize(row[1], CW - 35);
+      doc.text(wrappedText, M + 30, y + 14 + i * 5.5);
+      if(wrappedText.length > 1) { y += (wrappedText.length - 1) * 4; } 
     });
+    
     y += boxH + 8;
 
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(60, 30, 50);
-    doc.text('Health questions', M, y);
+    doc.setTextColor(245, 239, 230);
+    doc.text('Medical Questions & Health History', M, y);
     y += 6;
     doc.setFontSize(9.5);
+    
     data.answers.forEach(a => {
       const qText = doc.splitTextToSize(a.n + '. ' + a.full, CW - 24);
       let h = qText.length * 4.5 + 3;
       const detLines = a.detail ? doc.splitTextToSize('Details: ' + a.detail, CW - 32) : null;
       if (detLines) h += detLines.length * 4.5 + 3;
-      if (y + h > 262) { doc.addPage(); y = 20; }
+      
+      // Auto-paint new pages dark when content overflows
+      if (y + h > 270) { 
+        doc.addPage(); 
+        fillPageDark(); 
+        y = 20; 
+      }
+      
       doc.setFont('helvetica', 'bold');
-      if (a.a === 'Yes') doc.setTextColor(178, 34, 34); else doc.setTextColor(111, 143, 114);
+      // Highlight YES in Orchid pink, NO in Sage green for dark mode contrast
+      if (a.a === 'Yes') doc.setTextColor(217, 154, 198); else doc.setTextColor(169, 195, 167);
       doc.text(a.a.toUpperCase(), M + 2, y + 4);
-      doc.setFont('helvetica', 'normal'); doc.setTextColor(67, 32, 60);
+      
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(245, 239, 230);
       doc.text(qText, M + 20, y + 4);
       y += qText.length * 4.5 + 3;
+      
       if (detLines) {
-        doc.setFont('helvetica', 'italic'); doc.setTextColor(124, 63, 104);
+        doc.setFont('helvetica', 'italic'); doc.setTextColor(217, 154, 198);
         doc.text(detLines, M + 26, y + 1);
         y += detLines.length * 4.5 + 3;
       }
       y += 2;
     });
 
-    if (y > 225) { doc.addPage(); y = 20; }
+    if (y > 220) { doc.addPage(); fillPageDark(); y = 20; }
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(60, 30, 50);
-    doc.text('Signature', M, y);
-    y += 3;
+    doc.setTextColor(245, 239, 230);
+    doc.text('Signature & Declaration', M, y);
+    y += 5;
+    
+    doc.setFont('helvetica', 'italic'); doc.setFontSize(8);
+    const decText = doc.splitTextToSize("I have answered all questions in this form honestly and I am aware that if I have answered yes to any of the questions I will need to consult my GP before commencing an exercise program. If I am affected by any of the questions mentioned in this form or at a later date, I agree to inform my personal trainer or instructor on any changes in health or fitness.", CW);
+    doc.text(decText, M, y);
+    y += decText.length * 4 + 4;
+
     doc.setDrawColor(169, 195, 167);
     doc.line(M, y, M + CW, y);
     y += 3;
+    
+    // The signature itself will stamp as a clean cream-colored rectangle with dark ink on top of the dark page
     if (sigDataUrl) {
       try {
         const props = doc.getImageProperties(sigDataUrl);
         let w = 90, h = w * props.height / props.width;
         const maxH = 34;
         if (h > maxH) { h = maxH; w = h * props.width / props.height; }
-        if (y + h > 278) { doc.addPage(); y = 20; }
+        if (y + h > 278) { doc.addPage(); fillPageDark(); y = 20; }
         doc.addImage(sigDataUrl, 'PNG', M + 2, y, w, h);
         y += h + 4;
       } catch (err) { y += 14; }
     } else { y += 14; }
+    
     doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
-    doc.setTextColor(124, 63, 104);
+    doc.setTextColor(169, 195, 167);
     doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), M + 2, y);
 
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
@@ -389,18 +480,16 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
         my_attachment: pdfBase64
       };
 
-      // Send via EmailJS
-      // Note: If "Pilates with Nic" gives an invalid service ID error, 
-      // check your dashboard for a generic ID like "service_xxxxx".
+      // Send via EmailJS using the Service ID from your screenshot
       await emailjs.send(
-        "Pilates with Nic", 
+        "service_k69g9s8", 
         "template_0lt9jk9", 
         templateParams
       );
 
       // Still download the PDF for the client's own records
       const safeName = (data.name || 'client').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
-      const filename = 'PilatesWithNic_HealthQ_' + safeName + '.pdf';
+      const filename = 'PilatesWithNic_PARQ_' + safeName + '.pdf';
       doc.save(filename);
       
       showToast('✓ Success! Questionnaire sent directly to Nic.');
