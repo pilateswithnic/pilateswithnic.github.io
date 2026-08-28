@@ -155,18 +155,24 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     <button type="submit" class="btn primary" id="submitBtn">Generate PDF &amp; email Nic</button>
     <button type="button" class="btn ghost" id="previewBtn">Preview PDF</button>
   </div>
-  <p class="note">Your signed PDF downloads automatically — just attach it to the email that opens. Nothing is stored on this website.</p>
+  <p class="note">Your signed PDF downloads automatically for your records. The form is sent silently to Nic.</p>
 </form>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<!-- Added EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 
 <script>
 (() => {
   'use strict';
+  
+  // Initialize EmailJS with your Public Key
+  emailjs.init("nWAQpY29aA4U3MS_x");
+
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -355,26 +361,54 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     return doc;
   }
 
-  /* ===== submit ===== */
+  /* ===== submit via EmailJS ===== */
   const btn = $('#submitBtn');
   const btnHTML = btn.innerHTML;
   $('#hq').addEventListener('submit', async e => {
     e.preventDefault();
     if (sigPad.isEmpty()) { showToast('Please add your signature before submitting ✍️'); return; }
     if (!$('#fdeclare').checked) { showToast('Please tick the declaration at the bottom'); return; }
+    
     btn.disabled = true;
-    btn.textContent = 'Generating PDF…';
+    btn.textContent = 'Generating & Sending...';
+    
     try {
       const data = gatherData();
       const sigDataUrl = sigPad.toDataURL('image/png');
       const doc = await buildPDF(data, sigDataUrl);
+      
+      // Convert the generated PDF to a Base64 string for the EmailJS attachment
+      const pdfBase64 = doc.output('datauristring');
+      
+      // Ensure variables match what you set in your EmailJS template.
+      // E.g., {{my_attachment}} in the template settings.
+      const templateParams = {
+        client_name: data.name || 'New Client',
+        client_session: data.session,
+        client_email: data.email || 'No email provided',
+        my_attachment: pdfBase64
+      };
+
+      // Send via EmailJS
+      // Note: If "Pilates with Nic" gives an invalid service ID error, 
+      // check your dashboard for a generic ID like "service_xxxxx".
+      await emailjs.send(
+        "Pilates with Nic", 
+        "template_0lt9jk9", 
+        templateParams
+      );
+
+      // Still download the PDF for the client's own records
       const safeName = (data.name || 'client').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
       const filename = 'PilatesWithNic_HealthQ_' + safeName + '.pdf';
       doc.save(filename);
-      const subject = 'Health Questionnaire — ' + (data.name || 'new client');
-      const body = 'Hi Nic,\n\nPlease find attached my completed health questionnaire (' + filename + ').\n\nName: ' + data.name + '\nSession: ' + data.session + '\n\nThank you!';
-      window.location.href = 'mailto:ngardner3000@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      showToast('✓ Signed PDF downloaded — attach it to the email that just opened');
+      
+      showToast('✓ Success! Questionnaire sent directly to Nic.');
+      
+      // Optional: Clear form upon success
+      $('#hq').reset();
+      sigPad.clear();
+
     } catch (err) {
       console.error(err);
       showToast('Something went wrong — please try again');
