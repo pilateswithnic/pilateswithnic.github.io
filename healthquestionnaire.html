@@ -325,7 +325,8 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   /* ===== build PDF logic ===== */
   async function buildPDF(data, sigDataUrl) {
     const jsPDF = window.jspdf.jsPDF;
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    // CRITICAL FIX 1: Added compress: true to zip the PDF structure and drastically lower base64 size
+    const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
     const W = 210, M = 20, CW = W - M * 2;
 
     const fillPageDark = () => {
@@ -379,7 +380,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     y += 6;
     doc.setFontSize(9.5);
     
-    // Explicit line-by-line drawing for questions to prevent chopping or overlapping
     data.answers.forEach(a => {
       const qTextLines = doc.splitTextToSize(a.n + '. ' + a.full, CW - 24);
       const detTextLines = a.detail ? doc.splitTextToSize('Details: ' + a.detail, CW - 32) : null;
@@ -388,11 +388,10 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       const detHeight = detTextLines ? (detTextLines.length * 5 + 1) : 0;
       const totalH = qHeight + detHeight + 4; 
       
-      // Increased bottom margin threshold from 270 to 260 to guarantee safe wrapping
       if (y + totalH > 260) { 
         doc.addPage(); 
         fillPageDark(); 
-        y = 25; // Safe top margin for text after break
+        y = 25; 
       }
       
       doc.setFont('helvetica', 'bold');
@@ -414,7 +413,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       y += totalH;
     });
 
-    // Ensure enough room for the signature block
     if (y + 50 > 275) { doc.addPage(); fillPageDark(); y = 25; }
     
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
@@ -446,7 +444,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     doc.setTextColor(169, 195, 167);
     doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), M + 2, y);
 
-    // Apply the footer dynamically across EVERY generated page
     const totalPages = doc.internal.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
@@ -473,8 +470,8 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     try {
       const data = gatherData();
       
-      // Changed to JPEG and added mild compression (0.7 quality) to guarantee EmailJS <50KB limits
-      const sigDataUrl = sigPad.toDataURL('image/jpeg', 0.7); 
+      // CRITICAL FIX 2: Aggressive signature compression (0.3 quality) to keep image size tiny
+      const sigDataUrl = sigPad.toDataURL('image/jpeg', 0.3); 
       const doc = await buildPDF(data, sigDataUrl);
       
       const pdfBase64 = doc.output('datauristring');
@@ -501,7 +498,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
     } catch (err) {
       console.error("EmailJS full error:", err);
-      // Extracts detailed EmailJS API error if available
       const errMsg = err.text || err.message || 'please try again';
       showToast('Error sending email: ' + errMsg);
     } finally {
@@ -513,7 +509,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   /* ===== preview logic ===== */
   $('#previewBtn').addEventListener('click', async () => {
     const data = gatherData();
-    const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/jpeg', 0.7);
+    const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/jpeg', 0.3);
     const doc = await buildPDF(data, sigDataUrl);
     window.open(doc.output('bloburl'), '_blank');
   });
