@@ -4,66 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Health Questionnaire · Pilates with Nic</title>
-<meta name="description" content="Health questionnaire for Pilates with Nic. Completed online, sent as a signed PDF directly to Nic.">
+<meta name="description" content="Health questionnaire for Pilates with Nic. Completed online and sent securely.">
 <meta name="theme-color" content="#0f0a12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237c3f68'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23a9c3a7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f0a12;--cream:#f5efe6;--cream-dim:rgba(245,239,230,.62);--plum:#7c3f68;--plum-deep:#43203c;--sage:#a9c3a7;--orchid:#d99ac6;--glass:rgba(245,239,230,.045);--line:rgba(245,239,230,.14);--radius:22px;--display:'Fraunces',serif;--body:'Space Grotesk',sans-serif;color-scheme:dark}
+:root{--bg:#0f0a12;--cream:#f5efe6;--cream-dim:rgba(245,239,230,.62);--plum:#7c3f68;--plum-deep:#43203c;--sage:#a9c3a7;--orchid:#d99ac6;--line:rgba(245,239,230,.14);--display:'Fraunces',serif;--body:'Space Grotesk',sans-serif;color-scheme:dark}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);background-image:radial-gradient(1200px 700px at 85% -10%,rgba(124,63,104,.22),transparent 60%),radial-gradient(900px 600px at -10% 40%,rgba(111,143,114,.14),transparent 60%);color:var(--cream);font:400 1rem/1.65 var(--body)}
+body{background:var(--bg);background-image:radial-gradient(1200px 700px at 85% -10%,rgba(124,63,104,.22),transparent 60%),radial-gradient(900px 600px at -10% 40%,rgba(111,143,114,.14),transparent 60%);color:var(--cream);font:400 1rem/1.65 var(--body); display:flex; flex-direction:column; min-height:100vh; align-items:center;}
 ::selection{background:var(--orchid);color:var(--plum-deep)}
 :focus-visible{outline:2px solid var(--orchid);outline-offset:3px;border-radius:6px}
 a{color:inherit}
-.wrap{width:min(760px,92%);margin:0 auto}
 .back{position:fixed;top:1rem;left:1rem;z-index:5;font:500 .85rem var(--body);color:var(--sage);text-decoration:none;background:rgba(15,10,18,.6);backdrop-filter:blur(8px);padding:.55rem 1rem;border-radius:999px;border:1px solid var(--line)}
 .back:hover{color:var(--cream)}
-header{padding:4.5rem 0 1.8rem;text-align:center}
+header{padding:6.5rem 1.5rem 2rem;text-align:center;width:min(760px,100%);margin:0 auto}
 #mandala{width:180px;margin:0 auto 1.2rem;filter:drop-shadow(0 0 26px rgba(217,154,198,.4))}
 #mandala svg{width:100%;height:auto;display:block}
 h1{font:400 clamp(2rem,6vw,2.8rem)/1.1 var(--display)}
 h1 em{font-style:italic;color:var(--orchid)}
 .intro{color:var(--cream-dim);max-width:52ch;margin:1rem auto 0;font-size:.97rem}
-.glass{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.panel{padding:clamp(1.4rem,4vw,2.4rem);margin:2rem 0 4rem}
-.sec{font:600 .72rem var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin:1.9rem 0 .9rem}
-.sec:first-child{margin-top:0}
-.field{margin-bottom:1rem}
-.field>span{display:block;font:500 .82rem var(--body);color:var(--cream-dim);margin-bottom:.4rem}
-.input,select,textarea{width:100%;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(15,10,18,.5);color:var(--cream);font:400 .95rem var(--body)}
-.input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; cursor: pointer; }
-.input::placeholder,textarea::placeholder{color:rgba(245,239,230,.35)}
-textarea{min-height:80px;resize:vertical}
-select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
-.q{border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;background:rgba(15,10,18,.35)}
-.q legend{font:400 .92rem/1.5 var(--body);color:var(--cream-dim);padding:0 .3rem}
-.yns{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
-.yn{position:relative}
-.yn input{position:absolute;opacity:0;width:1px;height:1px}
-.yn span{display:inline-block;padding:.45rem 1.2rem;border-radius:999px;border:1px solid var(--line);color:var(--cream-dim);font:500 .85rem var(--body);cursor:pointer;transition:.2s}
-.yn span:hover{color:var(--cream)}
-.yn input:checked+span{background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2;border-color:transparent}
-.yn input:focus-visible+span{outline:2px solid var(--orchid);outline-offset:2px}
-.qdetail{margin-top:.8rem}
-.sig-wrap{border:1px solid var(--line);border-radius:16px;background:rgba(15,10,18,.35);padding:1rem}
-.sig-wrap canvas{width:100%;height:180px;background:#f5efe6;border-radius:10px;cursor:crosshair;display:block;touch-action:none}
-.sig-actions{display:flex;gap:.6rem;margin-top:.7rem;justify-content:flex-end}
-.sig-clear{background:none;border:1px solid var(--line);color:var(--cream-dim);padding:.4rem .9rem;border-radius:999px;font:500 .8rem var(--body);cursor:pointer}
-.sig-clear:hover{color:var(--cream)}
-.declare{display:flex;gap:.7rem;align-items:flex-start;margin-top:1.4rem;font-size:.9rem;color:var(--cream-dim)}
-.declare input{width:1.2rem;height:1.2rem;margin-top:.15rem;accent-color:var(--orchid);flex:none}
-.actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.7rem}
-.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.6rem;border-radius:999px;font:600 .95rem/1 var(--body);letter-spacing:.02em;border:1px solid transparent;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.6rem;border-radius:999px;font:600 .95rem/1 var(--body);letter-spacing:.02em;border:1px solid transparent;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s; margin-top:2.5rem}
 .btn.primary{background:linear-gradient(135deg,#8a4b76,#5d2b50 55%,#3c1c38);color:#fdf7f2;box-shadow:0 8px 30px -8px rgba(217,154,198,.45)}
 .btn.primary:hover{transform:translateY(-2px)}
-.btn.ghost{color:var(--cream);border-color:rgba(245,239,230,.25);background:rgba(245,239,230,.04)}
-.btn.ghost:hover{background:rgba(245,239,230,.1)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.note{font-size:.78rem;color:var(--cream-dim);margin-top:1.1rem}
-.toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,20px);background:var(--plum);color:#fdf7f2;padding:.75rem 1.3rem;border-radius:999px;font:500 .85rem var(--body);opacity:0;pointer-events:none;transition:.35s;z-index:120;max-width:92%;text-align:center;box-shadow:0 10px 30px -10px rgba(217,154,198,.5)}
-.toast.show{opacity:1;transform:translate(-50%,0)}
 .m-center{fill:#f5efe6}.m-c-ring{fill:none;stroke:#7c3f68;stroke-width:1.8}.m-flower{fill:#7c3f68;stroke:#f5efe6;stroke-width:1.4}.m-flower-in{fill:none;stroke:#f5efe6;stroke-width:.9;opacity:.7}.m-ring-line{fill:none;stroke:#7c3f68;stroke-width:1.2}.m-dot{fill:#f5efe6}.m-dot-plum{fill:#7c3f68}.m-band{fill:none;stroke:#7c3f68;stroke-width:14;opacity:.9}.m-band-edge{fill:none;stroke:#f5efe6;stroke-width:1.2;opacity:.8}.m-mid{fill:#a9c3a7;stroke:#7c3f68;stroke-width:1.2}.m-leaf{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.1}.m-vein{fill:none;stroke:#f5efe6;stroke-width:.7;opacity:.8}.m-out-sage{fill:#a9c3a7;stroke:#6f8f72;stroke-width:1.3}.m-out-plum{fill:#7c3f68;stroke:#43203c;stroke-width:1.3}.m-out-in{fill:none;stroke:#f5efe6;stroke-width:.9}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -74,151 +38,24 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 <header>
   <div id="mandala" aria-hidden="true"></div>
   <h1>Health <em>questionnaire</em></h1>
-  <p class="intro">A few quick questions before your first class. When you're done, your answers become a neat signed PDF that goes straight to Nic — nothing is stored on this website.</p>
+  <p class="intro">A few quick questions before your first class. Click the button below to complete your secure form online.</p>
+  
+  <!-- Tally Button Setup -->
+  <button data-tally-open="VLOeEN" data-tally-overlay="1" data-tally-emoji-text="👋" data-tally-emoji-animation="wave" data-tally-auto-close="0" class="btn primary">
+    Open Health Questionnaire
+  </button>
 </header>
 
-<div class="wrap">
-<form id="hq" class="glass panel">
-  <p class="sec">1 · Personal Details</p>
-  <div class="field"><span>Full Name *</span><input class="input" id="fname" type="text" autocomplete="name" placeholder="e.g. Jane Smith" required></div>
-  
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-    <div class="field"><span>Date of Birth</span><input class="input" id="fdob" type="date"></div>
-    <div class="field"><span>Gender</span>
-      <div class="yns" style="margin-top:0.4rem;">
-        <label class="yn"><input type="radio" name="gender" value="Female"><span>Female</span></label>
-        <label class="yn"><input type="radio" name="gender" value="Male"><span>Male</span></label>
-      </div>
-    </div>
-  </div>
+<!-- Tally Embed Script -->
+<script async src="https://tally.so/widgets/embed.js"></script>
 
-  <div class="field"><span>Address (Town, County, Postcode)</span><textarea class="input" id="faddress" rows="2" placeholder="e.g. 123 Example Street, Exeter, EX1 1AA"></textarea></div>
-  
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-    <div class="field"><span>Phone Number</span><input class="input" id="fphone" type="tel" autocomplete="tel" placeholder="e.g. 07xxx xxx xxx"></div>
-    <div class="field"><span>Email Address</span><input class="input" id="femail" type="email" autocomplete="email" placeholder="you@example.com"></div>
-  </div>
-
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 0.5rem;">
-    <div class="field"><span>Emergency Contact Name</span><input class="input" id="femergname" type="text" placeholder="e.g. John Smith"></div>
-    <div class="field"><span>Emergency Contact Phone</span><input class="input" id="femergphone" type="tel" placeholder="e.g. 07xxx xxx xxx"></div>
-  </div>
-
-  <div class="field" style="margin-top: 1rem;"><span>Which session will you attend?</span>
-    <select id="fsession" class="input">
-      <optgroup label="Wonford Community &amp; Learning Centre">
-        <option>Monday 09:30 – 10:30</option><option>Thursday 09:30 – 10:30</option>
-      </optgroup>
-      <optgroup label="Exwick Parish Hall"><option>Monday 18:00 – 19:00</option></optgroup>
-      <optgroup label="Exminster Victory Hall"><option>Tuesday 09:30 – 10:30</option><option>Tuesday 10:40 – 11:40</option></optgroup>
-    </select>
-  </div>
-
-  <p class="sec" style="margin-top: 3rem;">2 · Medical Questions</p>
-  <p class="note" style="margin-top:-.5rem; margin-bottom:1.5rem;">Do you currently or have you ever suffered from any of the following conditions?</p>
-
-  <fieldset class="q"><legend>Heart problems?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q1" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Circulatory problems?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q2" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q2" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Blood pressure problems?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q3" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q3" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Joint, movement problems?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q4" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q4" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Feel dizzy or imbalance during exercise?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q5" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q5" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend id="q6legend">Currently pregnant or recently given birth?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q6" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q6" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-
-  <p class="sec" style="margin-top: 3rem;">3 · Health History</p>
-  <p class="note" style="margin-top:-.5rem; margin-bottom:1.5rem;">Do you currently receive medical care or do any of the following affect you?</p>
-
-  <fieldset class="q"><legend>Back/spinal pain?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q7" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q7" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Headaches or migraines?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q8" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q8" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Have you recently had surgery?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q9" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q9" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-  <fieldset class="q"><legend>Currently being prescribed medication?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q10" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q10" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-    
-  <fieldset class="q"><legend>Recently finished a course of medication?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q11" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q11" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-    
-  <fieldset class="q"><legend>Diabetes?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q12" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q12" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-    
-  <fieldset class="q"><legend>Asthma or breathing problems?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q13" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q13" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-    
-  <fieldset class="q"><legend>Is there any other reason that you believe may prevent you from taking part in any regular activity?</legend>
-    <div class="yns"><label class="yn"><input type="radio" name="q14" value="No" checked><span>No</span></label><label class="yn"><input type="radio" name="q14" value="Yes"><span>Yes</span></label></div>
-    <div class="qdetail" hidden><textarea placeholder="Please provide details below…"></textarea></div></fieldset>
-
-
-  <p class="sec" style="margin-top: 3rem;">4 · Declaration &amp; Signature *</p>
-  <div class="sig-wrap">
-    <canvas id="sigCanvas"></canvas>
-    <div class="sig-actions"><button type="button" class="sig-clear" id="sigClear">Clear signature</button></div>
-  </div>
-  <p class="note" style="margin-top:.6rem">Sign with your finger or mouse.</p>
-
-  <label class="declare"><input type="checkbox" id="fdeclare" required> 
-    <span>I have answered all questions in this form honestly and I am aware that if I have answered yes to any of the questions I will need to consult my GP before commencing an exercise program. If I am affected by any of the questions mentioned in this form or at a later date, I agree to inform my personal trainer or instructor on any changes in health or fitness.</span>
-  </label>
-
-  <div class="actions">
-    <button type="submit" class="btn primary" id="submitBtn">Generate PDF &amp; email Nic</button>
-    <button type="button" class="btn ghost" id="previewBtn">Preview PDF</button>
-  </div>
-  <p class="note">Your signed PDF downloads automatically for your records. The form is sent silently to Nic.</p>
-</form>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- EmailJS CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-
+<!-- Visual Mandala Script -->
 <script>
 (() => {
   'use strict';
-  
-  // Initialize EmailJS with your Public Key
-  emailjs.init("nWAQpY29aA4U3MS_x");
-
   const $ = s => document.querySelector(s);
-  const $$ = s => [...document.querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const toast = $('#toast');
-  let tT;
-  const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 4500); };
 
-  /* ===== mandala header ===== */
   (() => {
     const petal = (r0, r1, w) => {
       const a = -(r0 + (r1 - r0) * .35), b = -(r1 - (r1 - r0) * .25);
@@ -253,266 +90,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       '</svg>';
     if (reduced) $('#mandala svg').pauseAnimations();
   })();
-
-  /* ===== per-question details toggle ===== */
-  $$('.q').forEach(q => {
-    q.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', () => {
-      const wrap = q.querySelector('.qdetail');
-      const checked = q.querySelector('input:checked');
-      if (wrap) wrap.hidden = !(checked && checked.value === 'Yes');
-    }));
-  });
-
-  /* ===== gender-aware question 6 ===== */
-  const PREG = 'Currently pregnant or recently given birth?';
-  const HERN = 'Do you have, or have you been treated for, a hernia?';
-  $$('input[name=gender]').forEach(r => r.addEventListener('change', () => {
-    const sel = document.querySelector('input[name=gender]:checked');
-    $('#q6legend').textContent = (sel && sel.value === 'Male') ? HERN : PREG;
-  }));
-
-  /* ===== signature pad ===== */
-  const canvas = $('#sigCanvas');
-  const sigPad = new SignaturePad(canvas, { backgroundColor: '#f5efe6', penColor: '#43203c', minWidth: 1, maxWidth: 2.5 });
-  const resizeCanvas = () => {
-    const saved = sigPad.isEmpty() ? null : sigPad.toDataURL();
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
-    canvas.getContext('2d').scale(ratio, ratio);
-    if (saved) sigPad.fromDataURL(saved); else sigPad.clear();
-  };
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  $('#sigClear').addEventListener('click', () => sigPad.clear());
-
-  /* ===== gather data ===== */
-  function gatherData() {
-    const g = document.querySelector('input[name=gender]:checked');
-    let formattedDob = $('#fdob').value;
-    if (formattedDob) {
-      const parts = formattedDob.split('-');
-      formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0];
-    }
-
-    const data = {
-      name: $('#fname').value.trim(),
-      dob: formattedDob,
-      gender: g ? g.value : '—',
-      address: $('#faddress').value.trim(),
-      phone: $('#fphone').value.trim(),
-      email: $('#femail').value.trim(),
-      emergName: $('#femergname').value.trim(),
-      emergPhone: $('#femergphone').value.trim(),
-      session: $('#fsession').value,
-      answers: []
-    };
-    
-    $$('.q').forEach((q, i) => {
-      const checked = q.querySelector('input:checked');
-      const yes = checked && checked.value === 'Yes';
-      const ta = q.querySelector('.qdetail textarea');
-      data.answers.push({
-        n: i + 1,
-        full: q.querySelector('legend').textContent.trim(),
-        a: checked ? checked.value : '—',
-        detail: yes && ta ? ta.value.trim() : ''
-      });
-    });
-    return data;
-  }
-
-  /* ===== build PDF logic ===== */
-  async function buildPDF(data, sigDataUrl) {
-    const jsPDF = window.jspdf.jsPDF;
-    // CRITICAL FIX 1: Added compress: true to zip the PDF structure and drastically lower base64 size
-    const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
-    const W = 210, M = 20, CW = W - M * 2;
-
-    const fillPageDark = () => {
-      doc.setFillColor(15, 10, 18);
-      doc.rect(0, 0, W, 297, 'F');
-    };
-
-    fillPageDark();
-
-    // Header
-    doc.setFillColor(67, 32, 60); doc.rect(0, 0, W, 32, 'F');
-    doc.setTextColor(245, 239, 230);
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(22);
-    doc.text('Pilates with Nic', M, 16);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-    doc.text('Pre Activity Readiness Questionnaire (PAR-Q)', M, 24);
-
-    let y = 42;
-    const info = [
-      ['Name:', data.name || '—'],
-      ['DOB:', data.dob || '—'],
-      ['Gender:', data.gender],
-      ['Address:', data.address || '—'],
-      ['Phone:', data.phone || '—'],
-      ['Email:', data.email || '—'],
-      ['Emergency:', (data.emergName || '—') + '  /  ' + (data.emergPhone || '—')],
-      ['Session:', data.session]
-    ];
-    
-    const boxH = 12 + info.length * 5.5 + 2;
-    doc.setFillColor(40, 20, 35); 
-    doc.roundedRect(M, y, CW, boxH, 3, 3, 'F');
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(245, 239, 230);
-    doc.text('Client details', M + 4, y + 7);
-    doc.setFontSize(10);
-    
-    info.forEach((row, i) => {
-      doc.setFont('helvetica', 'bold'); doc.text(row[0], M + 4, y + 14 + i * 5.5);
-      doc.setFont('helvetica', 'normal'); 
-      const wrappedText = doc.splitTextToSize(row[1], CW - 35);
-      doc.text(wrappedText, M + 30, y + 14 + i * 5.5);
-      if(wrappedText.length > 1) { y += (wrappedText.length - 1) * 4; } 
-    });
-    
-    y += boxH + 8;
-
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(245, 239, 230);
-    doc.text('Medical Questions & Health History', M, y);
-    y += 6;
-    doc.setFontSize(9.5);
-    
-    data.answers.forEach(a => {
-      const qTextLines = doc.splitTextToSize(a.n + '. ' + a.full, CW - 24);
-      const detTextLines = a.detail ? doc.splitTextToSize('Details: ' + a.detail, CW - 32) : null;
-      
-      const qHeight = qTextLines.length * 5;
-      const detHeight = detTextLines ? (detTextLines.length * 5 + 1) : 0;
-      const totalH = qHeight + detHeight + 4; 
-      
-      if (y + totalH > 260) { 
-        doc.addPage(); 
-        fillPageDark(); 
-        y = 25; 
-      }
-      
-      doc.setFont('helvetica', 'bold');
-      if (a.a === 'Yes') doc.setTextColor(217, 154, 198); else doc.setTextColor(169, 195, 167);
-      doc.text((a.a || '—').toUpperCase(), M + 2, y + 4);
-      
-      doc.setFont('helvetica', 'normal'); doc.setTextColor(245, 239, 230);
-      qTextLines.forEach((line, idx) => {
-        doc.text(line, M + 20, y + 4 + (idx * 5));
-      });
-      
-      if (detTextLines) {
-        doc.setFont('helvetica', 'italic'); doc.setTextColor(217, 154, 198);
-        detTextLines.forEach((line, idx) => {
-          doc.text(line, M + 26, y + 4 + qHeight + (idx * 5));
-        });
-      }
-      
-      y += totalH;
-    });
-
-    if (y + 50 > 275) { doc.addPage(); fillPageDark(); y = 25; }
-    
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-    doc.setTextColor(245, 239, 230);
-    doc.text('Signature & Declaration', M, y);
-    y += 5;
-    
-    doc.setFont('helvetica', 'italic'); doc.setFontSize(8);
-    const decText = doc.splitTextToSize("I have answered all questions in this form honestly and I am aware that if I have answered yes to any of the questions I will need to consult my GP before commencing an exercise program. If I am affected by any of the questions mentioned in this form or at a later date, I agree to inform my personal trainer or instructor on any changes in health or fitness.", CW);
-    doc.text(decText, M, y);
-    y += decText.length * 4 + 4;
-
-    doc.setDrawColor(169, 195, 167);
-    doc.line(M, y, M + CW, y);
-    y += 3;
-    
-    if (sigDataUrl) {
-      try {
-        const props = doc.getImageProperties(sigDataUrl);
-        let w = 90, h = w * props.height / props.width;
-        const maxH = 34;
-        if (h > maxH) { h = maxH; w = h * props.width / props.height; }
-        doc.addImage(sigDataUrl, 'JPEG', M + 2, y, w, h);
-        y += h + 4;
-      } catch (err) { y += 14; }
-    } else { y += 14; }
-    
-    doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
-    doc.setTextColor(169, 195, 167);
-    doc.text('Signed electronically on ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), M + 2, y);
-
-    const totalPages = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= totalPages; i++) {
-      doc.setPage(i);
-      doc.setFont('helvetica', 'normal'); 
-      doc.setFontSize(8); 
-      doc.setTextColor(169, 195, 167);
-      doc.text('Pilates with Nic · pilateswithnic.github.io · ngardner3000@gmail.com · 07792 586540', W / 2, 290, { align: 'center' });
-    }
-
-    return doc;
-  }
-
-  /* ===== submit logic ===== */
-  const btn = $('#submitBtn');
-  const btnHTML = btn.innerHTML;
-  $('#hq').addEventListener('submit', async e => {
-    e.preventDefault();
-    if (sigPad.isEmpty()) { showToast('Please add your signature before submitting ✍️'); return; }
-    if (!$('#fdeclare').checked) { showToast('Please tick the declaration at the bottom'); return; }
-    
-    btn.disabled = true;
-    btn.textContent = 'Generating & Sending...';
-    
-    try {
-      const data = gatherData();
-      
-      // CRITICAL FIX 2: Aggressive signature compression (0.3 quality) to keep image size tiny
-      const sigDataUrl = sigPad.toDataURL('image/jpeg', 0.3); 
-      const doc = await buildPDF(data, sigDataUrl);
-      
-      const pdfBase64 = doc.output('datauristring');
-      
-      const templateParams = {
-        client_name: data.name || 'New Client',
-        client_session: data.session,
-        client_email: data.email || 'No email provided',
-        my_attachment: pdfBase64
-      };
-
-      await emailjs.send(
-        "Pilates with Nic", 
-        "template_0lt9jk9", 
-        templateParams
-      );
-
-      const safeName = (data.name || 'client').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
-      doc.save('PilatesWithNic_PARQ_' + safeName + '.pdf');
-      
-      showToast('✓ Success! Questionnaire sent directly to Nic.');
-      $('#hq').reset();
-      sigPad.clear();
-
-    } catch (err) {
-      console.error("EmailJS full error:", err);
-      const errMsg = err.text || err.message || 'please try again';
-      showToast('Error sending email: ' + errMsg);
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = btnHTML;
-    }
-  });
-
-  /* ===== preview logic ===== */
-  $('#previewBtn').addEventListener('click', async () => {
-    const data = gatherData();
-    const sigDataUrl = sigPad.isEmpty() ? null : sigPad.toDataURL('image/jpeg', 0.3);
-    const doc = await buildPDF(data, sigDataUrl);
-    window.open(doc.output('bloburl'), '_blank');
-  });
 })();
 </script>
 </body>
