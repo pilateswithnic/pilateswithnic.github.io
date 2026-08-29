@@ -149,18 +149,17 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     <button type="submit" class="btn primary" id="submitBtn">Generate PDF &amp; email Nic</button>
     <button type="button" class="btn ghost" id="previewBtn">Preview PDF</button>
   </div>
-  <p class="note">Your signed PDF downloads automatically for your records. The form is sent silently to Nic.</p>
+  <p class="note">Your signed PDF downloads automatically for your records and is emailed to Nic.</p>
 </form>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- Hidden machinery: a REAL multipart form posted to FormSubmit inside a hidden iframe.
-     This is the only free way that reliably ATTACHES the PDF. -->
-<iframe name="formsubmit_frame" id="formsubmit_frame" style="display:none" title="submission frame"></iframe>
-<form id="fsform" method="POST" enctype="multipart/form-data" target="formsubmit_frame" style="display:none">
+<!-- Real multipart form (the ONLY way FormSubmit attaches files). It posts and bounces back via _next. -->
+<form id="fsform" method="POST" enctype="multipart/form-data" style="display:none">
   <input type="hidden" name="_captcha" value="false">
   <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_next" value="">
   <input type="hidden" id="fs_subject" name="_subject" value="">
   <input type="hidden" id="fs_name" name="Client Name" value="">
   <input type="hidden" id="fs_session" name="Session" value="">
@@ -177,7 +176,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   'use strict';
 
   /* ============ CONFIG ============
-     Change this to Nic's real email when you're ready to go live:  */
+     Change to Nic's real email when ready: */
   const TARGET_EMAIL = 'pilates.with.nic01@gmail.com';
 
   const $ = s => document.querySelector(s);
@@ -187,8 +186,15 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   let tT;
   const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 4500); };
 
-  /* point the hidden form at FormSubmit for the chosen email */
+  /* point the real form at FormSubmit + return here after sending */
   $('#fsform').action = 'https://formsubmit.co/' + TARGET_EMAIL;
+  $('#fsform')._next.value = location.origin + location.pathname + '?sent=1';
+
+  /* show "sent" toast when we bounce back */
+  if (location.search.indexOf('sent=1') !== -1) {
+    showToast('✓ Sent! Your signed PDF is on its way to Nic.');
+    history.replaceState(null, '', location.pathname);
+  }
 
   /* ===== mandala header ===== */
   (() => {
@@ -338,7 +344,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     return doc;
   }
 
-  /* put a generated File into the hidden file input (modern browsers) */
+  /* put a generated File into the real file input */
   function setFileOnInput(file) {
     try {
       const dt = new DataTransfer();
@@ -364,22 +370,19 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       const fileName = 'PARQ_' + safeName + '.pdf';
       const pdfFile = new File([doc.output('blob')], fileName, { type: 'application/pdf' });
 
-      /* fill the hidden form */
+      /* fill the REAL form */
       $('#fs_subject').value = 'PAR-Q: ' + (data.name || 'New client');
       $('#fs_name').value = data.name || '';
       $('#fs_session').value = data.session;
       $('#fs_email').value = data.email || '';
       $('#fs_message').value = 'A new signed PAR-Q form was submitted by ' + (data.name || 'a client') + '. The signed PDF is attached.';
 
-      const attached = setFileOnInput(pdfFile);
-      doc.save(fileName); /* always keep a local copy */
+      doc.save(fileName); /* keep a local copy */
 
-      if (attached) {
-        $('#fsform').submit(); /* real multipart POST -> FormSubmit attaches the PDF */
-        showToast('✓ Sent to Nic — a copy was saved to your device');
-        $('#hq').reset(); sigPad.clear();
+      if (setFileOnInput(pdfFile)) {
+        $('#fsform').submit(); /* genuine multipart POST -> FormSubmit attaches the PDF, then bounces back */
       } else {
-        window.location.href = 'mailto:' + TARGET_EMAIL + '?subject=' + encodeURIComponent('PAR-Q: ' + data.name) + '&body=' + encodeURIComponent('Please find my signed PAR-Q attached (saved to my device as ' + fileName + ').');
+        window.location.href = 'mailto:' + TARGET_EMAIL + '?subject=' + encodeURIComponent('PAR-Q: ' + data.name) + '&body=' + encodeURIComponent('Please find my signed PAR-Q attached (saved as ' + fileName + ').');
         showToast('PDF saved — please attach it to the email that opened');
       }
     } catch (err) { console.error(err); showToast('Something went wrong — please try again'); }
