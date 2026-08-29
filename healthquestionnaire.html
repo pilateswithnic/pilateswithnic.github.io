@@ -155,19 +155,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
 <div class="toast" id="toast"></div>
 
-<!-- Real multipart form (the ONLY way FormSubmit attaches files). It posts and bounces back via _next. -->
-<form id="fsform" method="POST" enctype="multipart/form-data" style="display:none">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_next" value="">
-  <input type="hidden" id="fs_subject" name="_subject" value="">
-  <input type="hidden" id="fs_name" name="Client Name" value="">
-  <input type="hidden" id="fs_session" name="Session" value="">
-  <input type="hidden" id="fs_email" name="Client Email" value="">
-  <input type="hidden" id="fs_message" name="Message" value="">
-  <input type="file" id="fsfile" name="attachment">
-</form>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 
@@ -185,16 +172,6 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   const toast = $('#toast');
   let tT;
   const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 4500); };
-
-  /* point the real form at FormSubmit + return here after sending */
-  $('#fsform').action = 'https://formsubmit.co/' + TARGET_EMAIL;
-  $('#fsform')._next.value = location.origin + location.pathname + '?sent=1';
-
-  /* show "sent" toast when we bounce back */
-  if (location.search.indexOf('sent=1') !== -1) {
-    showToast('✓ Sent! Your signed PDF is on its way to Nic.');
-    history.replaceState(null, '', location.pathname);
-  }
 
   /* ===== mandala header ===== */
   (() => {
@@ -344,17 +321,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
     return doc;
   }
 
-  /* put a generated File into the real file input */
-  function setFileOnInput(file) {
-    try {
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      $('#fsfile').files = dt.files;
-      return true;
-    } catch (e) { return false; }
-  }
-
-  /* ===== submit ===== */
+  /* ===== submit: post multipart in the background (no navigation) ===== */
   const btn = $('#submitBtn');
   const btnHTML = btn.innerHTML;
   $('#hq').addEventListener('submit', async e => {
@@ -370,21 +337,23 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       const fileName = 'PARQ_' + safeName + '.pdf';
       const pdfFile = new File([doc.output('blob')], fileName, { type: 'application/pdf' });
 
-      /* fill the REAL form */
-      $('#fs_subject').value = 'PAR-Q: ' + (data.name || 'New client');
-      $('#fs_name').value = data.name || '';
-      $('#fs_session').value = data.session;
-      $('#fs_email').value = data.email || '';
-      $('#fs_message').value = 'A new signed PAR-Q form was submitted by ' + (data.name || 'a client') + '. The signed PDF is attached.';
+      /* Build a real multipart body for the STANDARD FormSubmit endpoint (supports attachments) */
+      const fd = new FormData();
+      fd.append('_captcha', 'false');
+      fd.append('_template', 'table');
+      fd.append('_subject', 'PAR-Q: ' + (data.name || 'New client'));
+      fd.append('Client Name', data.name || '');
+      fd.append('Session', data.session);
+      fd.append('Client Email', data.email || '');
+      fd.append('Message', 'A new signed PAR-Q form was submitted by ' + (data.name || 'a client') + '. The signed PDF is attached.');
+      fd.append('attachment', pdfFile);
+
+      /* no-cors: browser sends the multipart POST; FormSubmit emails it with the PDF attached */
+      await fetch('https://formsubmit.co/' + TARGET_EMAIL, { method: 'POST', mode: 'no-cors', body: fd });
 
       doc.save(fileName); /* keep a local copy */
-
-      if (setFileOnInput(pdfFile)) {
-        $('#fsform').submit(); /* genuine multipart POST -> FormSubmit attaches the PDF, then bounces back */
-      } else {
-        window.location.href = 'mailto:' + TARGET_EMAIL + '?subject=' + encodeURIComponent('PAR-Q: ' + data.name) + '&body=' + encodeURIComponent('Please find my signed PAR-Q attached (saved as ' + fileName + ').');
-        showToast('PDF saved — please attach it to the email that opened');
-      }
+      showToast('✓ Sent to Nic — a copy was saved to your device');
+      $('#hq').reset(); sigPad.clear();
     } catch (err) { console.error(err); showToast('Something went wrong — please try again'); }
     finally { btn.disabled = false; btn.innerHTML = btnHTML; }
   });
