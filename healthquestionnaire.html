@@ -338,15 +338,21 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
       const pdfFile = new File([doc.output('blob')], fileName, { type: 'application/pdf' });
 
       /* Build a real multipart body for the STANDARD FormSubmit endpoint (supports attachments) */
-      const fd = new FormData();
+            const fd = new FormData();
       fd.append('_captcha', 'false');
-      fd.append('_template', 'table');
-      fd.append('_subject', 'PAR-Q: ' + (data.name || 'New client'));
-      fd.append('Client Name', data.name || '');
-      fd.append('Session', data.session);
-      fd.append('Client Email', data.email || '');
-      fd.append('Message', 'A new signed PAR-Q form was submitted by ' + (data.name || 'a client') + '. The signed PDF is attached.');
+      fd.append('_template', 'box');
+      fd.append('_subject', '🌸 New PAR-Q: ' + (data.name || 'New client'));
+      fd.append('Message',
+        'Hello Nic,\n\n' +
+        'A new signed health questionnaire has just been completed on your website.\n\n' +
+        'Client: ' + (data.name || '—') + '\n' +
+        'Session: ' + data.session + '\n' +
+        'Phone: ' + (data.phone || '—') + '\n' +
+        'Email: ' + (data.email || '—') + '\n' +
+        'Emergency contact: ' + (data.emergName || '—') + ' / ' + (data.emergPhone || '—') + '\n\n' +
+        'The signed PDF is attached below. 💚');
       fd.append('attachment', pdfFile);
+
 
       /* no-cors: browser sends the multipart POST; FormSubmit emails it with the PDF attached */
       await fetch('https://formsubmit.co/' + TARGET_EMAIL, { method: 'POST', mode: 'no-cors', body: fd });
