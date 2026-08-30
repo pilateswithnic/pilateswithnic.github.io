@@ -625,15 +625,19 @@ let tT;
 const showToast = msg => { toast.textContent = msg; toast.classList.add('show');
 clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 2600); };
 function share(net, url, text) {
-if (net === 'fb') {
-window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'noopener,width=640,height=520');
-showToast('Opening Facebook to share…');
+const target = net === 'fb'
+  ? 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url)
+  : 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+const a = document.createElement('a');
+a.href = target;
+a.target = '_blank';
+a.rel = 'noopener';
+document.body.appendChild(a);
+a.click();
+a.remove();
+showToast(net === 'fb' ? 'Opening Facebook to share…' : 'Opening X to share…');
 }
-if (net === 'x') {
-window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank', 'noopener,width=640,height=520');
-showToast('Opening X to share…');
-}
-}
+
 $$('.share-row').forEach(row => {
 const url  = BASE + (row.dataset.hash || '');
 const text = row.dataset.text || document.title;
