@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share-card maker · Pilates with Nic</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;background:#0f0a12;color:#f5efe6;font:400 1rem/1.5 'Space Grotesk',sans-serif;padding:2rem 1rem}
+h1{font:400 1.5rem 'Fraunces',serif;text-align:center}
+canvas{max-width:100%;height:auto;border-radius:14px;border:1px solid rgba(245,239,230,.15)}
+.row{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+button,.filebtn{padding:.8rem 1.4rem;border-radius:999px;border:0;cursor:pointer;font:600 .95rem 'Space Grotesk',sans-serif;background:linear-gradient(135deg,#8a4b76,#5d2b50);color:#fdf7f2}
+button.ghost,.filebtn.ghost{background:rgba(245,239,230,.06);border:1px solid rgba(245,239,230,.25);color:#f5efe6}
+p{color:rgba(245,239,230,.6);max-width:64ch;text-align:center;font-size:.88rem}
+</style>
+</head>
+<body>
+<h1>Share‑card &amp; favicon maker</h1>
+<canvas id="cv" width="1200" height="630"></canvas>
+<label class="filebtn ghost">🖼 Use Nic's real mandala<input type="file" id="pick" accept="image/*" hidden></label>
+<div class="row">
+<button id="dlCard">⬇ Download share-card.png (1200×630)</button>
+<button id="dlFav" class="ghost">⬇ Download favicon.png (512×512)</button>
+</div>
+<p>Pick the mandala image (your AI copy or a flyer crop). The tool now scales it to fit nicely and feathers its edges into the card. Without a pick, it uses the drawn fallback.</p>
+
+<script>
+(() => {
+'use strict';
+const CREAM='#f4f1ea', PLUM='#522b5e', INK='#6b6470', SAGED='#6f8f72';
+const cv=document.getElementById('cv');
+let art=null, fontsReady=false;
+
+/* ---------- fallback drawn mandala ---------- */
+const P=(r0,r1,w)=>{const a=-(r0+(r1-r0)*.35),b=-(r1-(r1-r0)*.25);
+return 'M0 '+(-r0)+' C '+w+' '+a+', '+w+' '+b+', 0 '+(-r1)+' C '+(-w)+' '+b+', '+(-w)+' '+a+', 0 '+(-r0)+' Z';};
+const ring=(n,fn,off)=>{off=off||0;let s='';for(let i=0;i<n;i++)s+='<g transform="rotate('+(off+360/n*i)+')">'+fn(i)+'</g>';return s;};
+const dots=(n,R,r,f,o)=>ring(n,()=>'<circle cy="'+(-R)+'" r="'+r+'" fill="'+f+'"'+(o?' opacity="'+o+'"':'')+'/>');
+function mandalaSVG(){
+const C2='#f5efe6',P2='#7c3f68',PD='#43203c',SG='#a9c3a7',SD='#6f8f72',GR='#8a7f92',VI='#6a4a7a';
+const leaf=(r0,r1,w,f,s)=>'<path d="'+P(r0,r1,w)+'" fill="'+f+'" stroke="'+s+'" stroke-width="1.1"/><path d="M 0 '+(-r0-3)+' L 0 '+(-r1+5)+'" stroke="'+C2+'" stroke-width=".7" opacity=".8" fill="none"/>';
+let outer='';for(let i=0;i<16;i++){const sg=i%2===0;
+outer+='<g transform="rotate('+(360/16*i)+')"><path d="'+P(175,255,34)+'" fill="'+(sg?SG:VI)+'" stroke="'+(sg?SD:PD)+'" stroke-width="1.4"/><path d="'+P(185,243,26)+'" fill="none" stroke="'+C2+'" stroke-width="1" opacity=".85"/>'+(sg?leaf(196,232,11,'rgba(67,32,60,.25)',PD):'<circle cy="-249" r="2.4" fill="'+C2+'"/>')+'</g>';}
+let mid='';for(let i=0;i<12;i++){mid+='<g transform="rotate('+(360/12*i)+')"><path d="'+P(100,148,26)+'" fill="rgba(138,127,146,.35)" stroke="'+GR+'" stroke-width="1.2"/><path d="'+P(108,140,18)+'" fill="none" stroke="'+C2+'" stroke-width=".9" opacity=".7"/></g>';}
+const tris=ring(40,()=>'<path d="M 5 -150 L 0 -161 L -5 -150 Z" fill="none" stroke="'+C2+'" stroke-width="1" opacity=".8"/>');
+const flower=ring(8,()=>'<path d="'+P(18,64,16)+'" fill="'+P2+'" stroke="'+C2+'" stroke-width="1.4"/><path d="'+P(26,54,10)+'" fill="none" stroke="'+C2+'" stroke-width=".9" opacity=".7"/>');
+return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-270 -270 540 540" width="540" height="540"><g>'+outer+tris+dots(48,262,2,C2,.7)+'</g><g>'+mid+ring(12,()=>leaf(104,142,10,'rgba(169,195,167,.3)',SD),15)+'</g><g><circle r="88" fill="none" stroke="'+P2+'" stroke-width="15"/><circle r="80.5" fill="none" stroke="'+C2+'" stroke-width="1.2" opacity=".8"/><circle r="95.5" fill="none" stroke="'+C2+'" stroke-width="1.2" opacity=".8"/>'+dots(24,74,2,C2,.9)+'<circle r="68" fill="none" stroke="'+P2+'" stroke-width="1.2"/>'+flower+'<circle r="18" fill="'+C2+'"/><circle r="10" fill="'+SG+'"/><circle r="4" fill="'+P2+'"/></g></svg>';
+}
+const mImg=new Image(); let mReady=false;
+mImg.onload=()=>{mReady=true;tryRender();};
+mImg.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(mandalaSVG());
+
+/* ---------- pick real artwork ---------- */
+document.getElementById('pick').addEventListener('change',e=>{
+const f=e.target.files&&e.target.files[0]; if(!f)return;
+const im=new Image();
+im.onload=()=>{art=im;render();};
+im.src=URL.createObjectURL(f);
+});
+
+/* ---------- feathered (soft-edged) version of the artwork ---------- */
+function feathered(img,w,h){
+const c=document.createElement('canvas'); c.width=w; c.height=h;
+const x=c.getContext('2d');
+x.drawImage(img,0,0,w,h);
+x.globalCompositeOperation='destination-in';
+const m=Math.min(w,h);
+const g=x.createRadialGradient(w/2,h/2,m*0.34,w/2,h/2,m*0.5);
+g.addColorStop(0,'rgba(0,0,0,1)'); g.addColorStop(.86,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,0)');
+x.fillStyle=g; x.fillRect(0,0,w,h);
+return c;
+}
+
+/* ---------- render card ---------- */
+function render(){
+const x=cv.getContext('2d');
+x.clearRect(0,0,1200,630);
+if(art){
+  x.fillStyle=CREAM; x.fillRect(0,0,1200,630);
+  /* fit-to-scale: keep whole mandala visible, right side, clear of text */
+  const pad=28, maxW=560, maxH=630-pad*2;
+  let w=maxW, h=w*art.height/art.width;
+  if(h>maxH){ h=maxH; w=h*art.width/art.height; }
+  const mx=1200-w-pad, my=(630-h)/2;
+  x.drawImage(feathered(art,w,h), mx, my);
+  /* soft cream clear-zone for the text, ending before the mandala */
+  const gz=x.createLinearGradient(0,0,mx+10,0);
+  gz.addColorStop(0,'rgba(244,241,234,1)'); gz.addColorStop(.8,'rgba(244,241,234,1)'); gz.addColorStop(1,'rgba(244,241,234,0)');
+  x.fillStyle=gz; x.fillRect(0,0,mx+10,630);
+  x.fillStyle=PLUM; x.font='400 112px Fraunces, serif'; x.fillText('Pilates',70,238);
+  x.font='italic 400 62px Fraunces, serif'; x.fillText('with',78,344);
+  const ww=x.measureText('with').width;
+  x.font='400 108px Fraunces, serif'; x.fillText('Nic',78+ww+20,352);
+  x.fillStyle=INK; x.font='400 26px "Space Grotesk", sans-serif'; x.fillText('Friendly, personally tailored classes',76,424);
+  try{x.letterSpacing='6px';}catch(e){}
+  x.fillStyle=SAGED; x.font='600 23px "Space Grotesk", sans-serif'; x.fillText('✦ EXETER & DEVON',76,482);
+  try{x.letterSpacing='0px';}catch(e){}
+}else if(mReady){
+  x.fillStyle='#0f0a12'; x.fillRect(0,0,1200,630);
+  let g=x.createRadialGradient(950,120,50,950,120,700);
+  g.addColorStop(0,'rgba(124,63,104,.35)'); g.addColorStop(1,'rgba(124,63,104,0)');
+  x.fillStyle=g; x.fillRect(0,0,1200,630);
+  x.drawImage(mImg, 600, -10, 660, 660);
+  x.fillStyle='#f5efe6'; x.font='400 108px Fraunces, serif'; x.fillText('Pilates',80,252);
+  x.font='italic 400 56px Fraunces, serif'; x.fillStyle='#a9c3a7'; x.fillText('with',84,348);
+  const ww=x.measureText('with').width;
+  const gr=x.createLinearGradient(84+ww+22,0,84+ww+240,0); gr.addColorStop(0,'#d99ac6'); gr.addColorStop(1,'#a9c3a7');
+  x.fillStyle=gr; x.font='400 96px Fraunces, serif'; x.fillText('Nic',84+ww+22,356);
+  x.fillStyle='rgba(245,239,230,.62)'; x.font='400 30px "Space Grotesk", sans-serif'; x.fillText('Friendly, personally tailored classes',84,436);
+  try{x.letterSpacing='6px';}catch(e){}
+  x.fillStyle='#a9c3a7'; x.font='600 24px "Space Grotesk", sans-serif'; x.fillText('✦ EXETER & DEVON',84,492);
+  try{x.letterSpacing='0px';}catch(e){}
+}
+}
+function tryRender(){ if(fontsReady) render(); }
+if(document.fonts&&document.fonts.load){
+Promise.all([document.fonts.load('400 112px Fraunces'),document.fonts.load('italic 400 62px Fraunces'),document.fonts.load('400 26px "Space Grotesk"'),document.fonts.load('600 23px "Space Grotesk"')])
+.then(()=>{fontsReady=true;tryRender();}).catch(()=>{fontsReady=true;tryRender();});
+}else{fontsReady=true;tryRender();}
+
+/* ---------- favicon ---------- */
+function favCanvas(){
+const c=document.createElement('canvas'); c.width=c.height=512;
+const x=c.getContext('2d');
+if(art){ x.fillStyle=CREAM; x.fillRect(0,0,512,512);
+  const s=Math.min(512/art.width,512/art.height)*0.94, w=art.width*s, h=art.height*s;
+  x.drawImage(feathered(art,w,h),(512-w)/2,(512-h)/2);
+}else{ x.fillStyle='#0f0a12'; x.fillRect(0,0,512,512); if(mReady)x.drawImage(mImg,16,16,480,480); }
+return c;
+}
+function save(canvas,name){
+canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);},'image/png');
+}
+document.getElementById('dlCard').addEventListener('click',()=>save(cv,'share-card.png'));
+document.getElementById('dlFav').addEventListener('click',()=>save(favCanvas(),'favicon.png'));
+})();
+</script>
+</body>
+</html>
