@@ -93,7 +93,7 @@ font:500 .8rem/1 var(--body);color:var(--cream-dim);border:1px solid var(--line)
 .share-row.center{justify-content:center}
 .share-row .s-label{font:600 .7rem var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);margin-right:.2rem}
 .share-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--glass);
-color:var(--cream-dim);display:grid;place-items:center;cursor:pointer;transition:.25s}
+color:var(--cream-dim);display:grid;place-items:center;cursor:pointer;transition:.25s;text-decoration:none}
 .share-btn svg{width:15px;height:15px;fill:currentColor}
 .share-btn:hover{transform:translateY(-2px);color:var(--cream)}
 .share-btn[data-net="fb"]:hover{border-color:#1877f2;color:#1877f2}
@@ -612,43 +612,30 @@ try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) { promp
 btn.textContent = '✓ copied';
 setTimeout(() => btn.textContent = old, 1300);
 }));
-/* ---------- social share buttons (Facebook / X only) ---------- */
+/* ---------- social share: REAL links (never blocked on iPhone) ---------- */
 (() => {
 const ICONS = {
 fb: '<svg viewBox="0 0 24 24"><path d="M13.4 21v-6.9h2.3l.44-2.8h-2.74V9.4c0-.81.32-1.4 1.44-1.4h1.3V5.5c-.25-.03-1.12-.1-2.14-.1-2.24 0-3.63 1.36-3.63 3.72v2.18H8v2.8h2.37V21h3.03z"/></svg>',
 x:  '<svg viewBox="0 0 24 24"><path d="M17.8 3h2.7l-6 6.8L21.6 21h-5.5l-4.3-5.6L6.9 21H4.2l6.4-7.3L3.9 3h5.6l3.9 5.1L17.8 3zm-1 16.4h1.5L8.7 4.5H7.1l9.7 14.9z"/></svg>'
 };
 const BASE = location.origin + location.pathname;
-const toast = document.createElement('div');
-toast.className = 'toast'; document.body.appendChild(toast);
-let tT;
-const showToast = msg => { toast.textContent = msg; toast.classList.add('show');
-clearTimeout(tT); tT = setTimeout(() => toast.classList.remove('show'), 2600); };
-function share(net, url, text) {
-const target = net === 'fb'
-  ? 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url)
-  : 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
-const a = document.createElement('a');
-a.href = target;
-a.target = '_blank';
-a.rel = 'noopener';
-document.body.appendChild(a);
-a.click();
-a.remove();
-showToast(net === 'fb' ? 'Opening Facebook to share…' : 'Opening X to share…');
-}
-
 $$('.share-row').forEach(row => {
 const url  = BASE + (row.dataset.hash || '');
 const text = row.dataset.text || document.title;
 row.innerHTML = '<span class="s-label">Share</span>';
 ['fb','x'].forEach(net => {
-const b = document.createElement('button');
-b.className = 'share-btn'; b.dataset.net = net; b.innerHTML = ICONS[net];
+const a = document.createElement('a');
+a.className = 'share-btn';
+a.dataset.net = net;
+a.innerHTML = ICONS[net];
+a.target = '_blank';
+a.rel = 'noopener';
+a.href = net === 'fb'
+  ? 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url)
+  : 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
 const label = net === 'fb' ? 'Share on Facebook' : 'Share on X';
-b.title = label; b.setAttribute('aria-label', label);
-b.addEventListener('click', () => share(net, url, text));
-row.appendChild(b);
+a.title = label; a.setAttribute('aria-label', label);
+row.appendChild(a);
 });
 });
 })();
