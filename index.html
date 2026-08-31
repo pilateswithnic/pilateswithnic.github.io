@@ -613,8 +613,6 @@ btn.textContent = '✓ copied';
 setTimeout(() => btn.textContent = old, 1300);
 }));
 /* ---------- social share: REAL links (never blocked on iPhone) ---------- */
-/* ---------- social share buttons (Facebook / X) ---------- */
-/* ---------- social share buttons (Facebook / X) ---------- */
 (() => {
 const ICONS = {
 fb: '<svg viewBox="0 0 24 24"><path d="M13.4 21v-6.9h2.3l.44-2.8h-2.74V9.4c0-.81.32-1.4 1.44-1.4h1.3V5.5c-.25-.03-1.12-.1-2.14-.1-2.24 0-3.63 1.36-3.63 3.72v2.18H8v2.8h2.37V21h3.03z"/></svg>',
@@ -622,31 +620,6 @@ x:  '<svg viewBox="0 0 24 24"><path d="M17.8 3h2.7l-6 6.8L21.6 21h-5.5l-4.3-5.6L
 };
 const BASE = location.origin + location.pathname;
 $$('.share-row').forEach(row => {
-const url  = BASE + (row.dataset.hash || '');
-const text = row.dataset.text || document.title;
-row.innerHTML = '<span class="s-label">Share</span>';
-['fb','x'].forEach(net => {
-const b = document.createElement('button');
-b.className = 'share-btn'; b.dataset.net = net; b.innerHTML = ICONS[net];
-const label = net === 'fb' ? 'Share on Facebook' : 'Share on X';
-b.title = label; b.setAttribute('aria-label', label);
-b.addEventListener('click', () => {
-const target = net === 'fb'
-  ? 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url)
-  : 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
-/* plain _blank: no popup-size features (Safari blocks those) and no
-   anchor tap (iOS would hand the tap to the installed Facebook app) */
-const w = window.open(target, '_blank');
-if (!w) {
-if (navigator.share) navigator.share({ title: document.title, text: text, url: url }).catch(() => {});
-else location.href = target;
-}
-});
-row.appendChild(b);
-});
-});
-})();
-=> {
 const url  = BASE + (row.dataset.hash || '');
 const text = row.dataset.text || document.title;
 row.innerHTML = '<span class="s-label">Share</span>';
@@ -992,4 +965,3 @@ this.setAttribute('aria-pressed', Ambient.on);
 </script>
 </body>
 </html>
-
